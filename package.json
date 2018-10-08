@@ -1,0 +1,34 @@
+{
+  "name": "string-and-object-tools",
+  "version": "0.0.1",
+  "description": "assorted utilites for working with strings and objects",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/babel src --out-dir lib",
+    "clean": "rm -rf node_modules/, rm -rf package-lock.json, rm -rf lib/; npm install",
+    "doc": "documentation build src/index.js -f html -o . --config documentation.yml",
+    "test": "mocha --timeout 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/star2star/string-and-object-tools.git"
+  },
+  "author": "Star2star Communications",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/star2star/string-and-object-tools/issues"
+  },
+  "homepage": "https://github.com/star2star/string-and-object-tools#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "assert": "^1.4.1",
+    "documentation": "^8.0.0",
+    "mocha": "^5.2.0",
+    "lodash": "^4.17.11"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0"
+  }
+}

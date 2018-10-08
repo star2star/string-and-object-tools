@@ -1,0 +1,7 @@
+toc:
+  - name: Index
+    children:
+      - getVariableSelectData
+      - replaceVariableInput
+  
+      
