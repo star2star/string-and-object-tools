@@ -27,3 +27,4 @@ require("babel-polyfill");
 
 ## Changes
 * 0.0.1 - initial setup
+* 0.0.2 - fixed issue with package.json main ... must be lib/index.js
