@@ -126,7 +126,7 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
   // use regex to get inputs to replace 
   const regexMatches = incomingString.match(/(\+\S+)/g);
 
-  //console.log('xxxxx', regexMatches, variableSelectData);
+  // console.log('xxxxx', regexMatches, variableSelectData);
   // replace based on variableSelectData
   regexMatches && regexMatches.length > 0 && regexMatches.forEach((item)=>{
     
@@ -136,9 +136,9 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
     }
     
     const replacementName = item.substr(1, endPos); //strip off + 
-    //console.log(item, item.charAt(item.length -1), item.length, endPos, replacementName);
+    // console.log(item, item.charAt(item.length -1), item.length, endPos, replacementName);
     const replacementValue = variableSelectData.reduce((p,c,i)=>{
-      //console.log('xxxx', p, c, i );
+      // console.log('xxxx', p, c, i );
       if (!p) {
         if (c.label === replacementName) {
           return c.value;
@@ -146,8 +146,8 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
       }
       return p;
     }, undefined);
-    //console.log('>>>', replacementName, replacementValue);
-    if (replacementValue && replacementValue.length > 0) {
+    // console.log('>>>', replacementName, replacementValue, replacementValue.length);
+    if (replacementValue && replacementValue.toString().length > 0) {
       newInput = newInput.replace(new RegExp("\\+"+replacementName, 'g'), replacementValue);
     }
 

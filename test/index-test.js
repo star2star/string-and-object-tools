@@ -32,6 +32,9 @@ describe("String and Object Tools Index", function () {
     //console.log(output);
     assert(output === "I love JS");
 
+
+
+
     //test a bad string
     inputString = "I +emotion JS";
     replacementObj = {"missing":"love"};
@@ -47,4 +50,65 @@ describe("String and Object Tools Index", function () {
     assert(output === "Wait Fred, I am testing punctuation");
     done();
   });
+
+  it("Replace Variable Input - number", function (done) {
+    //test a good string
+    let inputString = "I +ticket";
+    let replacementObj =   {
+      "name": "Sergey Galchenko",
+      "address": {
+          "city": "Aurora",
+          "country": "US",
+          "geocodeAccuracy": null,
+          "latitude": null,
+          "longitude": null,
+          "postalCode": "44202",
+          "state": "OH",
+          "street": "625 Joseph Dr"
+      },
+      "email": "sgalchenko@yahoo.com",
+      "ticket": 82,
+      "caller_id": "+12164704017",
+      "formatted_caller_id": "(216) 470-4017",
+      "call_transcription": "yeah this is James in apartment 1601 I am locked out flooding"
+  };
+    let output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log('*******', output);
+
+    assert(output === "I 82");
+ 
+    done();
+  });
+
+  it("Replace Variable Input boolean", function (done) {
+    //test a good string
+    let inputString = "I +ticket";
+    let replacementObj =   {
+      "name": "Sergey Galchenko",
+      "address": {
+          "city": "Aurora",
+          "country": "US",
+          "geocodeAccuracy": null,
+          "latitude": null,
+          "longitude": null,
+          "postalCode": "44202",
+          "state": "OH",
+          "street": "625 Joseph Dr"
+      },
+      "email": "sgalchenko@yahoo.com",
+      "ticket": true,
+      "caller_id": "+12164704017",
+      "formatted_caller_id": "(216) 470-4017",
+      "call_transcription": "yeah this is James in apartment 1601 I am locked out flooding"
+  };
+    let output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log('*******', output);
+
+    assert(output === "I true");
+ 
+    done();
+  });
+
+
+
 });
