@@ -22,31 +22,35 @@ const getVariableSelectData = (label = "", sampleData) => {
           // must check for array 
           if (Array.isArray(sampleData[key])) {
             // array so do my magic here 
-            return sampleData[key].map((item, index) => {
+            //console.log('k', key);
+            return [].concat([{"label": getNewLabel(`${label}`, `${key}`) , "value":  sampleData[key]}]).concat(sampleData[key].map((item, index) => {
               if (typeof (item) === "object" && item !== null && Object.keys(item).length > 0) {
                 // ok this is an object within array 
-                return getObjectStuff(getNewLabel(`${label}`, `${key}[${index}]`), item );
+                return [].concat([{"label": getNewLabel(`${label}`, `${key}[${index}]`) , "value":  item }]).concat(getObjectStuff(getNewLabel(`${label}`, `${key}[${index}]`), item ));
               } else {
-                if (item === null || Object.keys(item).length === 0) {
+                if (item === null  ) {
                   return { "label": getNewLabel(`${label}`, `${key}[${index}]`), "value": "NULL" };
                 } else {
                   return { "label": getNewLabel(`${label}`, `${key}[${index}]`), "value": item };
                 }
               }
-            });
+            }));
           } else {
             // it is an object so recursion
             if (Object.keys(sampleData[key]).length > 0) {
               // 
               const mySecondary = getObjectStuff(getNewLabel(`${label}`, `${key}`), sampleData[key] );
   
-              return mySecondary;
+              // console.log('zzzzz', [].concat({"label": getNewLabel(`${label}`, `${key}`), "value": sampleData[key]}).concat(mySecondary));
+              // console.log('>>>>', mySecondary);
+              return [].concat({"label": getNewLabel(`${label}`, `${key}`), "value": sampleData[key]}).concat(mySecondary);
+              //return mySecondary;
             } else {
               return { "label": getNewLabel(`${label}`, `${key}`), "value": "EMPTY" };
             }
   
           }
-        } else {
+        } else { // primative stuff 
           if (sampleData[key] === null) {
             return { "label": getNewLabel(`${label}`, `${key}`), "value": "NULL" };
           } else {
@@ -54,8 +58,13 @@ const getVariableSelectData = (label = "", sampleData) => {
           }
         }
       });
-      const myReturn = [].concat(firstRun);
-      //console.log('myREturn', myReturn);
+      let myReturn = [];
+
+      //if (label.length > 0){
+      //  myReturn = [].concat([ { "label": getNewLabel(`${label}`, ""), "value": sampleData }]).concat(firstRun);
+      //} else {
+        myReturn = [].concat(firstRun);
+      //}
   
       return myReturn;
   
@@ -162,7 +171,7 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
  * @returns {object} - JSON object with key and value 
  */
 const getContentEditableData = (sampleData) => {
-  const data = S2STools.getVariableSelectData("", sampleData);
+  const data = getVariableSelectData("", sampleData);
   const rData = {};
   data.forEach((obj)=>{
     rData[obj.label] = obj.value;
@@ -170,8 +179,24 @@ const getContentEditableData = (sampleData) => {
   return rData;
 };
 
+/**
+ * 
+ * @description Flattens a JSON object into an object needed by dataBrowser compoents 
+ * @param {object} sampleData - JSON object to be flattened.
+ * @returns {array of <objects>} - array of objects in the form of {name, type, value }
+ */
+const getFlattenedObject = (sampleData) => {
+  const data = getVariableSelectData("", sampleData);
+ 
+  return data.map((obj)=>{
+    return {"name": obj.label, "type": (typeof(obj.value) === "object" && Array.isArray(obj.value) ? "array" : typeof(obj.value)), "defaultValue": obj.value};
+  });
+ 
+};
+
 module.exports = {
   replaceVariableInput,
   getVariableSelectData,
-  getContentEditableData
+  getContentEditableData, 
+  getFlattenedObject
 };

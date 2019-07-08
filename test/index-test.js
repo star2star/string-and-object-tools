@@ -11,17 +11,20 @@ describe("String and Object Tools Index", function () {
       {"input": {"empty":""}, "output" : [ { label: '3.empty', value: '' } ]},
       {"input": {"undefined":undefined}, "output" : [ { label: '4.undefined', value: undefined } ]},
       {"input": {"bool":true}, "output" : [ { label: '5.bool', value: true } ]},
-      {"input": {"nestedObj":{"a":"2"}}, "output" : [ { label: '6.nestedObj.a', value: '2' } ]},
-      {"input": {"nestedArr":[1,2,3]}, "output" : [ { label: '7.nestedArr[0]', value: 'NULL' },{ label: '7.nestedArr[1]', value: 'NULL' },{ label: '7.nestedArr[2]', value: 'NULL' } ]},
+      {"input": {"nestedObj":{"a":"2"}}, "output" : [ { label: '6.nestedObj', value: {"a": "2"} }, { label: '6.nestedObj.a', value: '2' } ]},
+      {"input": {"nestedArr":[1,2,3]}, "output" : [ { label: '7.nestedArr', value: [1,2,3] }, { label: '7.nestedArr[0]', value: 1 },{ label: '7.nestedArr[1]', value: 2},{ label: '7.nestedArr[2]', value: 3 } ]},
+      {"input": {"nestedObj":[{"a":"2"}, {"b":"1"}]}, "output" : [ { label: '8.nestedObj', value: [{"a":"2"}, {"b":"1"}] }, { label: '8.nestedObj[0]', value: {"a": "2"} },  { label: '8.nestedObj[0].a', value: '2' },{ label: '8.nestedObj[1]', value: {"b": "1"} },  { label: '8.nestedObj[1].b', value: '1' } ]},
     ]
-    for (const test in testData) { 
-      const output = tools.getVariableSelectData(test,testData[test].input);
+    for (const index in testData) { 
+      const output = tools.getVariableSelectData(index,testData[index].input);
       // console.log("***** const output *****",output);
-      // console.log("***** testData[test].output *****",testData[test].output);
-      assert(_.isEqual(output, testData[test].output));  
+      // console.log("***** testData[test].output *****",testData[index].output);
+      assert(_.isEqual(output, testData[index].output));  
     }
     done();
   });
+
+ 
 
   //TODO add more checks here
   it("Replace Variable Input", function (done) {
@@ -79,7 +82,7 @@ describe("String and Object Tools Index", function () {
  
     done();
   });
-
+ 
   it("Replace Variable Input boolean", function (done) {
     //test a good string
     let inputString = "I +ticket";
@@ -108,7 +111,65 @@ describe("String and Object Tools Index", function () {
  
     done();
   });
+  
 
+  it("get content editable", function (done) {
+    const output = tools.getContentEditableData({"a": 1, "b": 2, "c":[1,2,3,4]});
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({ a: 1, b: 2, "c": [1,2,3,4], 'c[0]': 1, 'c[1]': 2, 'c[2]': 3, 'c[3]': 4 }));
+ 
+    done();
+  });
 
+  it("get Flattened Object 1 ", function (done) {
+    const output = tools.getFlattenedObject({"a": true, "b": "2", "c":[1,2,3,4]});
+    //console.log('xxxxx', output);
+    const RESULTS = [
+      {"name": "a", "type": "boolean", "defaultValue": true},
+      {"name": "b", "type": "string", "defaultValue": "2"},
+      {"name": "c", "type": "array", "defaultValue": [1,2,3,4]},
+      {"name": "c[0]", "type": "number", "defaultValue": 1},
+      {"name": "c[1]", "type": "number", "defaultValue": 2},
+      {"name": "c[2]", "type": "number", "defaultValue": 3} ,
+      {"name": "c[3]", "type": "number", "defaultValue": 4},
+    ];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+ 
+    done();
+  });
+ 
+  it("get Flattened Object 2 ", function (done) {
+    const output = tools.getFlattenedObject({"a": true, "b": "2", "c":[{"a":"1"}, {"b":"1"}]});
+    //console.log('xxxxx', output);
+    const RESULTS = [
+      {"name": "a", "type": "boolean", "defaultValue": true},
+      {"name": "b", "type": "string", "defaultValue": "2"},
+      {"name": "c", "type": "array", "defaultValue": [{"a":"1"}, {"b":"1"}]},
+      {"name": "c[0]", "type": "object", "defaultValue": {"a":"1"}},
+      {"name": "c[0].a", "type": "string", "defaultValue": "1"},
+      {"name": "c[1]", "type": "object", "defaultValue": {"b":"1"}},
+      {"name": "c[1].b", "type": "string", "defaultValue": "1"},
+    ];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+ 
+    done();
+  });
 
+   
+  it("get Flattened Object 3 ", function (done) {
+    const output = tools.getFlattenedObject({"a": 1, "b":2, "c":{"a":1, "b":2}});
+    //console.log('xxxxx', output);
+    const RESULTS = [
+      {"name": "a", "type": "number", "defaultValue": 1},
+      {"name": "b", "type": "number", "defaultValue": 2},
+      {"name": "c", "type": "object", "defaultValue": {"a":1, "b":2}},
+      {"name": "c.a", "type": "number", "defaultValue": 1},
+      {"name": "c.b", "type": "number", "defaultValue": 2},
+    ];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+ 
+    done();
+  });
+
+  
 });
