@@ -59,27 +59,52 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
       });
       let myReturn = [];
 
-      if (label.length === 0 && Array.isArray(sampleData)){
-        //console.warn('addd the array ', firstRun.reduce((acc, val) => acc.concat(val), []));
-        // fix firstRun data
-        const flattenDeep = (arr1) => {
-          return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
-        }
-        const xFirstRun = flattenDeep(firstRun);
-
-        myReturn = [].concat([ { "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i)=>{
-          //console.log(i);
-          const name = i.label;
-          const firstPart = name.substring(0, name.indexOf('.') > -1 ? name.indexOf('.') : undefined);
-          //console.log('zzz', firstPart);
-          const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.')+1): "";
-          //console.log('a', firstPart, lastPart);
-          let newName = `${sampleDataName}[${firstPart}]`;
-          if (lastPart && lastPart.length > 0){
-            newName += `.${lastPart}`;
+      if (label.length === 0 ){
+        if (Array.isArray(sampleData)){
+          //console.warn('addd the array ', firstRun.reduce((acc, val) => acc.concat(val), []));
+          // fix firstRun data
+          const flattenDeep = (arr1) => {
+            return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
           }
-          return { ...i, "label": newName };
-        }))
+          const xFirstRun = flattenDeep(firstRun);
+
+          myReturn = [].concat([ { "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i)=>{
+            //console.log(i);
+            const name = i.label;
+            const firstPart = name.substring(0, name.indexOf('.') > -1 ? name.indexOf('.') : undefined);
+            //console.log('zzz', firstPart);
+            const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.')+1): "";
+            //console.log('a', firstPart, lastPart);
+            let newName = `${sampleDataName}[${firstPart}]`;
+            if (lastPart && lastPart.length > 0){
+              newName += `.${lastPart}`;
+            }
+            return { ...i, "label": newName };
+          }));
+        } else {
+          // object 
+          //console.warn('addd the array ', firstRun);
+          // fix firstRun data
+          const flattenDeep = (arr1) => {
+            return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
+          }
+          const xFirstRun = flattenDeep(firstRun);
+
+          myReturn = [].concat([ { "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i)=>{
+            //console.log(i);
+            const name = i.label;
+            const firstPart = name.substring(0, name.indexOf('.') > -1 ? name.indexOf('.') : undefined);
+            //console.log('zzz', firstPart);
+            const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.')+1): "";
+            //console.log('a', firstPart, lastPart);
+            let newName = sampleDataName && sampleDataName.length > 0 ? `${sampleDataName}.${firstPart}` : `${firstPart}`;
+            if (lastPart && lastPart.length > 0){
+              newName += `.${lastPart}`;
+            }
+            return { ...i, "label": newName };
+          }));
+        }
+
       } else {
         myReturn = [].concat(firstRun);
       }
@@ -195,7 +220,10 @@ const getContentEditableData = (sampleData) => {
   const data = getVariableSelectData("", sampleData);
   const rData = {};
   data.forEach((obj)=>{
-    rData[obj.label] = obj.value;
+    if (obj.label && obj.label.length > 0){
+      rData[obj.label] = obj.value;
+    }
+    
   });
   return rData;
 };
