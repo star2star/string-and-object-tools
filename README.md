@@ -32,3 +32,4 @@ require("babel-polyfill");
 * 0.0.4 - missing stuff
 * 0.0.5 - fixed and added new method called getFlattenedObject
 * 0.0.6 - handle arrays as root element
+* 0.0.7 - update bable

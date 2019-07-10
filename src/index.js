@@ -1,6 +1,5 @@
 
 "use strict";
-
 /**
  * 
  * @description Flattens a JSON object into label and value pairs

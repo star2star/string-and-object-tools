@@ -1,13 +1,13 @@
 {
   "name": "string-and-object-tools",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "assorted utilites for working with strings and objects",
   "main": "lib/index.js",
   "scripts": {
     "build": "./node_modules/.bin/babel src --out-dir lib",
     "clean": "rm -rf node_modules/, rm -rf package-lock.json, rm -rf lib/; npm install --no-save",
     "doc": "documentation build src/index.js -f html -o . --config documentation.yml",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000 --compilers js:@babel/register"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,10 @@
     "@babel/cli": "7.5.0",
     "@babel/core": "7.5.0",
     "@babel/preset-env": "7.5.3",
+    "@babel/register": "7.4.4",
     "assert": "1.4.1",
     "documentation": "8.0.0",
     "lodash": "4.17.11",
     "mocha": "5.2.0"
-  },
-  "dependencies": {
-    "@babel/polyfill": "7.0.0"
   }
 }
