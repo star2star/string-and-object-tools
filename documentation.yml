@@ -1,6 +1,8 @@
 toc:
   - name: Index
     children:
+      - getContentEditableData
+      - getFlattenedObject
       - getVariableSelectData
       - replaceVariableInput
   
