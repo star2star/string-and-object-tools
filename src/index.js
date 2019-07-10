@@ -8,7 +8,7 @@
  * @param {object} sampleData - JSON object to be flattened.
  * @returns {array} - array of objects in {label:"","value":""} format.
  */
-const getVariableSelectData = (label = "", sampleData) => {
+const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
   //console.log('LEVEL', level);
 
   const getNewLabel = (oldLabel = "", key = "") => {
@@ -60,11 +60,33 @@ const getVariableSelectData = (label = "", sampleData) => {
       });
       let myReturn = [];
 
-      //if (label.length > 0){
-      //  myReturn = [].concat([ { "label": getNewLabel(`${label}`, ""), "value": sampleData }]).concat(firstRun);
-      //} else {
+      if (label.length === 0 && Array.isArray(sampleData)){
+        //console.warn('addd the array ', firstRun.reduce((acc, val) => acc.concat(val), []));
+        // fix firstRun data
+        const flattenDeep = (arr1) => {
+          return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
+        }
+        const xFirstRun = flattenDeep(firstRun);
+
+        myReturn = [].concat([ { "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i)=>{
+          //console.log(i);
+          const name = i.label;
+          const firstPart = name.substring(0, name.indexOf('.') > -1 ? name.indexOf('.') : undefined);
+          //console.log('zzz', firstPart);
+          const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.')+1): "";
+          //console.log('a', firstPart, lastPart);
+          let newName = `${sampleDataName}[${firstPart}]`;
+          if (lastPart && lastPart.length > 0){
+            newName += `.${lastPart}`;
+          }
+          return { ...i, "label": newName };
+        }))
+      } else {
         myReturn = [].concat(firstRun);
-      //}
+      }
+
+      
+   
   
       return myReturn;
   
@@ -185,8 +207,8 @@ const getContentEditableData = (sampleData) => {
  * @param {object} sampleData - JSON object to be flattened.
  * @returns {array of <objects>} - array of objects in the form of {name, type, value }
  */
-const getFlattenedObject = (sampleData) => {
-  const data = getVariableSelectData("", sampleData);
+const getFlattenedObject = (sampleData, name) => {
+  const data = getVariableSelectData("", sampleData, name);
  
   return data.map((obj)=>{
     return {"name": obj.label, "type": (typeof(obj.value) === "object" && Array.isArray(obj.value) ? "array" : typeof(obj.value)), "defaultValue": obj.value};
