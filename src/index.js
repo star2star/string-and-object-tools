@@ -15,7 +15,7 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
   };
 
   const getObjectStuff = (label = "", sampleData) => {
-    if (typeof (sampleData) === "object") {
+    if (sampleData !== null && typeof (sampleData) === "object") {
       const firstRun = Object.keys(sampleData).map((key) => {
         if (typeof (sampleData[key]) === "object" && sampleData[key] !== null) {
           // must check for array 
@@ -84,14 +84,10 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
         myReturn = [].concat(firstRun);
       }
 
-      
-   
-  
       return myReturn;
-  
-  
+    
     } else {
-      console.warn('sample data provided to getVariableSelectData was not an object', sampleData);
+      console.warn('sample data provided to getVariableSelectData was not an object: ', sampleData === "" ? "empty string": sampleData);
       return [];
     }
   };
@@ -151,6 +147,11 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
  */
 const replaceVariableInput = (incomingString = "", sampleData = {}) => {
   const variableSelectData = getVariableSelectData("", sampleData);
+  //swallow bad parameter
+  if (typeof incomingString !== "string"){
+    console.warn("replaceVariableInput incomingString type not a string: ", typeof incomingString);
+    return "";
+  }
 
   let newInput = incomingString + "";
   // use regex to get inputs to replace 

@@ -3,6 +3,7 @@ const tools = require("../src/index");
 const _ = require("lodash");
 
 describe("String and Object Tools Index", function () {
+  
   it("Get Variable Select Data", function (done) {
     const testData = [
       {"input": {"string":"v"}, "output" : [ { label: '0.string', value: 'v' } ]},
@@ -14,6 +15,11 @@ describe("String and Object Tools Index", function () {
       {"input": {"nestedObj":{"a":"2"}}, "output" : [ { label: '6.nestedObj', value: {"a": "2"} }, { label: '6.nestedObj.a', value: '2' } ]},
       {"input": {"nestedArr":[1,2,3]}, "output" : [ { label: '7.nestedArr', value: [1,2,3] }, { label: '7.nestedArr[0]', value: 1 },{ label: '7.nestedArr[1]', value: 2},{ label: '7.nestedArr[2]', value: 3 } ]},
       {"input": {"nestedObj":[{"a":"2"}, {"b":"1"}]}, "output" : [ { label: '8.nestedObj', value: [{"a":"2"}, {"b":"1"}] }, { label: '8.nestedObj[0]', value: {"a": "2"} },  { label: '8.nestedObj[0].a', value: '2' },{ label: '8.nestedObj[1]', value: {"b": "1"} },  { label: '8.nestedObj[1].b', value: '1' } ]},
+      {"input": null, "output": []},
+      {"input" : undefined, "output": []},
+      {"input": "", "output": []},
+      {"input": true, "output":[]},
+      {"input": false, "output":[]}
     ]
     for (const index in testData) { 
       const output = tools.getVariableSelectData(index,testData[index].input);
@@ -26,7 +32,6 @@ describe("String and Object Tools Index", function () {
 
  
 
-  //TODO add more checks here
   it("Replace Variable Input", function (done) {
     //test a good string
     let inputString = "I +emotion JS";
@@ -34,9 +39,6 @@ describe("String and Object Tools Index", function () {
     let output = tools.replaceVariableInput(inputString, replacementObj);
     //console.log(output);
     assert(output === "I love JS");
-
-
-
 
     //test a bad string
     inputString = "I +emotion JS";
@@ -51,6 +53,61 @@ describe("String and Object Tools Index", function () {
     output = tools.replaceVariableInput(inputString, replacementObj);
     //console.log(output);
     assert(output === "Wait Fred, I am testing punctuation");
+
+    //test a bad string
+    inputString = "I +foobar";
+    replacementObj =   {"name": "a name"};
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log('*******', output);
+
+    assert(output === "I +foobar");
+
+    //test a null string
+    inputString = null;
+    replacementObj =   {"name": "a name"};
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log('*******', output);
+
+    assert(output === "");
+
+    //test an undefined string
+    inputString = undefined;
+    replacementObj =   {"name": "a name"};
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log('*******', output);
+
+    assert(output === "");
+
+    //test a boolean as string arg
+    inputString = false;
+    replacementObj =   {"name": "a name"};
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log('*******', output);
+
+    assert(output === "");
+
+    //test a null object argument
+    inputString = "I +emotion JS";
+    replacementObj = null;
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log(output);
+    
+    assert(output === "I +emotion JS");
+
+    //test an undefined object argument
+    inputString = "I +emotion JS";
+    replacementObj = undefined;
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log(output);
+    assert(output === "I +emotion JS");
+
+    //test an boolean as object argument
+    inputString = "I +emotion JS";
+    replacementObj = false;
+    output = tools.replaceVariableInput(inputString, replacementObj);
+    //console.log(output);
+    assert(output === "I +emotion JS");
+
     done();
   });
 
@@ -108,16 +165,39 @@ describe("String and Object Tools Index", function () {
     //console.log('*******', output);
 
     assert(output === "I true");
- 
+
     done();
   });
   
-
   it("get content editable", function (done) {
-    const output = tools.getContentEditableData({"a": 1, "b": 2, "c":[1,2,3,4]});
+    let output = tools.getContentEditableData({"a": 1, "b": 2, "c":[1,2,3,4]});
     //console.log('xxxxx', output);
     assert(JSON.stringify(output) ===  JSON.stringify({ a: 1, b: 2, "c": [1,2,3,4], 'c[0]': 1, 'c[1]': 2, 'c[2]': 3, 'c[3]': 4 }));
- 
+    
+    output = tools.getContentEditableData(null);
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({}));
+
+    output = tools.getContentEditableData(undefined);
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({}));
+
+    output = tools.getContentEditableData("a string");
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({}));
+
+    output = tools.getContentEditableData(true);
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({}));
+
+    output = tools.getContentEditableData(false);
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({}));
+
+    output = tools.getContentEditableData([]);
+    //console.log('xxxxx', output);
+    assert(JSON.stringify(output) ===  JSON.stringify({ undefined: [] }));
+
     done();
   });
 
@@ -223,4 +303,39 @@ describe("String and Object Tools Index", function () {
     done();
   });
 
+  it("get Flattened Object 8 ", function (done) {
+    const output = tools.getFlattenedObject(undefined, "");
+    //console.log('xxxxx', output);
+    const RESULTS = [];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+ 
+    done();
+  });
+
+  it("get Flattened Object 9 ", function (done) {
+    const output = tools.getFlattenedObject(null, "");
+    //console.log('xxxxx', output);
+    const RESULTS = [];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+ 
+    done();
+  });
+
+  it("get Flattened Object 10 ", function (done) {
+    const output = tools.getFlattenedObject();
+    //console.log('xxxxx', output);
+    const RESULTS = [];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+ 
+    done();
+  });
+  
+  it("get Flattened Object 11 ", function (done) {
+    const output = tools.getFlattenedObject("");
+    //console.log('xxxxx', output);
+    const RESULTS = [];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
 });
