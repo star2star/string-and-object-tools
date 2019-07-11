@@ -112,7 +112,7 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
       return myReturn;
     
     } else {
-      console.warn('sample data provided to getVariableSelectData was not an object: ', sampleData === "" ? "empty string": sampleData);
+      //console.warn('sample data provided to getVariableSelectData was not an object: ', sampleData === "" ? "empty string": sampleData);
       return [];
     }
   };
@@ -174,7 +174,7 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
   const variableSelectData = getVariableSelectData("", sampleData);
   //swallow bad parameter
   if (typeof incomingString !== "string"){
-    console.warn("replaceVariableInput incomingString type not a string: ", typeof incomingString);
+    //console.warn("replaceVariableInput incomingString type not a string: ", typeof incomingString);
     return "";
   }
 
@@ -244,9 +244,38 @@ const getFlattenedObject = (sampleData, name) => {
  
 };
 
+/**
+ * 
+ * @description builds a object from JSON object 
+ * @param {object} sampleData - JSON object to be flattened.
+ * @param {stirng} name - prefix name defaults to empty 
+ * @returns {array of <objects>} - array of objects in the form of {name, type, value }
+ */
+const buildTreeFromObject = (sampleData=[], prefixName="") => {
+  let myReturn = [
+    {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
+      {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
+      {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
+        {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
+      ] },
+      {"name": "prefixName.c", "displayName": "c", "type": "array", "defaultValue":[0,1,2,3,4], "children": [
+        {"name": "prefixName.b.c[0]", "displayName": "[0]", "type": "number", "defaultValue":0, "children": [] },
+        {"name": "prefixName.b.c[1]", "displayName": "[1]", "type": "number", "defaultValue":1, "children": [] },
+        {"name": "prefixName.b.c[2]", "displayName": "[2]", "type": "number", "defaultValue":2, "children": [] },
+        {"name": "prefixName.b.c[3]", "displayName": "[3]", "type": "number", "defaultValue":3, "children": [] },
+        {"name": "prefixName.b.c[4]", "displayName": "[4]", "type": "number", "defaultValue":4, "children": [] },
+      ] }
+    ] }
+  ];
+
+  return myReturn;
+ 
+};
+
 module.exports = {
   replaceVariableInput,
   getVariableSelectData,
   getContentEditableData, 
-  getFlattenedObject
+  getFlattenedObject, 
+  buildTreeFromObject
 };

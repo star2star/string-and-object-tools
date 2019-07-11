@@ -357,5 +357,28 @@ describe("String and Object Tools Index", function () {
     done();
   });
 
+  it("build tree from object ", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "prefixName");
+    //console.log('xxxxx', output);
+    const RESULTS = [
+      {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
+        {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
+        {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
+          {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
+        ] },
+        {"name": "prefixName.c", "displayName": "c", "type": "array", "defaultValue":[0,1,2,3,4], "children": [
+          {"name": "prefixName.b.c[0]", "displayName": "[0]", "type": "number", "defaultValue":0, "children": [] },
+          {"name": "prefixName.b.c[1]", "displayName": "[1]", "type": "number", "defaultValue":1, "children": [] },
+          {"name": "prefixName.b.c[2]", "displayName": "[2]", "type": "number", "defaultValue":2, "children": [] },
+          {"name": "prefixName.b.c[3]", "displayName": "[3]", "type": "number", "defaultValue":3, "children": [] },
+          {"name": "prefixName.b.c[4]", "displayName": "[4]", "type": "number", "defaultValue":4, "children": [] },
+        ] }
+      ] }
+    ];
+    
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
   
 });
