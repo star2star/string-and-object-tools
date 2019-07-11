@@ -196,7 +196,7 @@ describe("String and Object Tools Index", function () {
 
     output = tools.getContentEditableData([]);
     //console.log('xxxxx', output);
-    assert(JSON.stringify(output) ===  JSON.stringify({ undefined: [] }));
+    assert(JSON.stringify(output) ===  JSON.stringify({}));
 
     done();
   });
@@ -205,6 +205,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.getFlattenedObject({"a": true, "b": "2", "c":[1,2,3,4]}, "");
     //console.log('xxxxx', output);
     const RESULTS = [
+      {"name": "", "type": "object", "defaultValue": {"a": true, "b": "2", "c":[1,2,3,4]}},
       {"name": "a", "type": "boolean", "defaultValue": true},
       {"name": "b", "type": "string", "defaultValue": "2"},
       {"name": "c", "type": "array", "defaultValue": [1,2,3,4]},
@@ -222,6 +223,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.getFlattenedObject({"a": true, "b": "2", "c":[{"a":"1"}, {"b":"1"}]}, "");
     //console.log('xxxxx', output);
     const RESULTS = [
+      {"name": "", "type": "object", "defaultValue": {"a": true, "b": "2", "c":[{"a":"1"}, {"b":"1"}]}},
       {"name": "a", "type": "boolean", "defaultValue": true},
       {"name": "b", "type": "string", "defaultValue": "2"},
       {"name": "c", "type": "array", "defaultValue": [{"a":"1"}, {"b":"1"}]},
@@ -239,6 +241,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.getFlattenedObject({"a": 1, "b":2, "c":{"a":1, "b":2}}, "");
     //console.log('xxxxx', output);
     const RESULTS = [
+      {"name": "", "type": "object", "defaultValue": {"a": 1, "b":2, "c":{"a":1, "b":2}}},
       {"name": "a", "type": "number", "defaultValue": 1},
       {"name": "b", "type": "number", "defaultValue": 2},
       {"name": "c", "type": "object", "defaultValue": {"a":1, "b":2}},
@@ -304,9 +307,15 @@ describe("String and Object Tools Index", function () {
   });
 
   it("get Flattened Object 8 ", function (done) {
-    const output = tools.getFlattenedObject(undefined, "");
+    const output = tools.getFlattenedObject({"a": {"a":1}, "b": {"a":1}}, "");
     //console.log('xxxxx', output);
-    const RESULTS = [];
+    const RESULTS = [
+      {"name": "", "type": "object", "defaultValue": {"a": {"a":1}, "b": {"a":1}}},
+      {"name": "a", "type": "object", "defaultValue": {"a":1}},
+      {"name": "a.a", "type": "number", "defaultValue": 1},
+      {"name": "b", "type": "object", "defaultValue": {"a":1}},
+      {"name": "b.a", "type": "number", "defaultValue": 1},
+    ];
     assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
  
     done();
@@ -338,4 +347,15 @@ describe("String and Object Tools Index", function () {
 
     done();
   });
+
+  it("get Flattened Object 12 ", function (done) {
+    const output = tools.getFlattenedObject(undefined, "");
+    //console.log('xxxxx', output);
+    const RESULTS = [];
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  
 });
