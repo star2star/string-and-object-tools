@@ -251,22 +251,42 @@ const getFlattenedObject = (sampleData, name) => {
  * @param {stirng} name - prefix name defaults to empty 
  * @returns {array of <objects>} - array of objects in the form of {name, type, value }
  */
-const buildTreeFromObject = (sampleData=[], prefixName="") => {
-  let myReturn = [
-    {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
-      {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
-      {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
-        {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
-      ] },
-      {"name": "prefixName.c", "displayName": "c", "type": "array", "defaultValue":[0,1,2,3,4], "children": [
-        {"name": "prefixName.b.c[0]", "displayName": "[0]", "type": "number", "defaultValue":0, "children": [] },
-        {"name": "prefixName.b.c[1]", "displayName": "[1]", "type": "number", "defaultValue":1, "children": [] },
-        {"name": "prefixName.b.c[2]", "displayName": "[2]", "type": "number", "defaultValue":2, "children": [] },
-        {"name": "prefixName.b.c[3]", "displayName": "[3]", "type": "number", "defaultValue":3, "children": [] },
-        {"name": "prefixName.b.c[4]", "displayName": "[4]", "type": "number", "defaultValue":4, "children": [] },
-      ] }
-    ] }
-  ];
+const buildTreeFromObject = (sampleData, prefixName="") => {
+  let myReturn = [];
+
+  const getKeyData = (keyData, prefixLabel="", level=0, label="") =>{
+    //console.log('getKeyData ....', keyData, prefixLabel, level, label);
+    if (!keyData){
+      throw new Error('keyData invalid');
+    }
+    if (typeof(keyData) === "object"){
+
+      // recursion
+      const myChildren = Object.keys(keyData).map((k)=>{
+        // is child an object 
+        if (typeof(keyData[k])=== "object"){
+          //console.log('zzzzz', keyData, k)
+          return getKeyData(keyData[k], (Array.isArray(keyData) ? `${prefixLabel}[${k}]` : `${prefixLabel}.${k}`), level++, k);
+        } else {
+          //console.log('hmmmmm ', typeof(keyData[k]));
+          if (Array.isArray(keyData)){ // parent is an array so doing this why 
+            //console.log('>>>', prefixLabel, k, keyData )
+            return {"name": `${prefixLabel}[${k}]`, "displayName":`[${k}]`, "type": typeof(keyData[k]),  "defaultValue": keyData[k], "children": []}
+          } else {
+            return {"name": `${prefixLabel}.${k}`, "displayName":`${k}`, "type": typeof(keyData[k]),  "defaultValue": keyData[k], "children": []}
+          }
+          
+        }
+
+      });
+      return  {"name": prefixLabel, "displayName": label, "type": typeof(keyData) === "object" ? (Array.isArray(keyData)? "array": "object"): typeof(keyData),  "defaultValue": keyData, "children": myChildren}
+    } else {
+      return {"name": prefixLabel, "displayName": label, "type": typeof(keyData),  "defaultValue": keyData, "children": []}
+    }
+    
+  }
+
+  myReturn = myReturn.concat(getKeyData(sampleData, prefixName, 0));
 
   return myReturn;
  

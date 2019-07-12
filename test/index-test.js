@@ -3,7 +3,7 @@ const tools = require("../src/index");
 const _ = require("lodash");
 
 describe("String and Object Tools Index", function () {
-  
+ 
   it("Get Variable Select Data", function (done) {
     const testData = [
       {"input": {"string":"v"}, "output" : [ { label: '0.string', value: 'v' } ]},
@@ -358,27 +358,83 @@ describe("String and Object Tools Index", function () {
   });
 
   it("build tree from object ", function (done) {
-    const output = tools.buildTreeFromObject({ "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "prefixName");
-    //console.log('xxxxx', output);
+    const output = tools.buildTreeFromObject({ "a": 1}, "prefixName");
+    //console.log('xxxxx', JSON.stringify(output, "", 5));
     const RESULTS = [
-      {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
-        {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
-        {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
-          {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
-        ] },
-        {"name": "prefixName.c", "displayName": "c", "type": "array", "defaultValue":[0,1,2,3,4], "children": [
-          {"name": "prefixName.b.c[0]", "displayName": "[0]", "type": "number", "defaultValue":0, "children": [] },
-          {"name": "prefixName.b.c[1]", "displayName": "[1]", "type": "number", "defaultValue":1, "children": [] },
-          {"name": "prefixName.b.c[2]", "displayName": "[2]", "type": "number", "defaultValue":2, "children": [] },
-          {"name": "prefixName.b.c[3]", "displayName": "[3]", "type": "number", "defaultValue":3, "children": [] },
-          {"name": "prefixName.b.c[4]", "displayName": "[4]", "type": "number", "defaultValue":4, "children": [] },
-        ] }
+      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": { "a": 1}, "children": [
+        {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] } 
       ] }
     ];
-    
+    //console.log('yyyy', JSON.stringify(RESULTS, "", 5));
     assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
 
     done();
   });
-  
+
+  it("build tree from object  2", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": 2}, "prefixName");
+    //console.log('xxxxx', JSON.stringify(output, "", 5));
+    const RESULTS = [
+      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": { "a": 1, "b": 2}, "children": [
+        {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
+        {"name": "prefixName.b", "displayName": "b", "type": "number", "defaultValue":2, "children": [] }  
+      ] }
+    ];
+
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+    it("build tree from object 3 ", function (done) {
+    const output = tools.buildTreeFromObject({  "b": { "c": 2} }, "prefixName");
+    //console.log('xxxxx', JSON.stringify(output, "", 5));
+    const RESULTS = [
+      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": {  "b": { "c": 2} }, "children": [
+        {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
+          {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
+        ] }
+      ] }
+    ];
+    //console.log('yyyyy', JSON.stringify(RESULTS, "", 5));
+
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+    it("build tree from object 4 ", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "prefixName");
+    //console.log('xxxxx',  JSON.stringify(output, "", 5));
+    const RESULTS = [
+      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
+        {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
+        {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
+          {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
+        ] },
+        {"name": "prefixName.d", "displayName": "d", "type": "array", "defaultValue":[0,1,2,3,4], "children": [
+          {"name": "prefixName.d[0]", "displayName": "[0]", "type": "number", "defaultValue":0, "children": [] },
+          {"name": "prefixName.d[1]", "displayName": "[1]", "type": "number", "defaultValue":1, "children": [] },
+          {"name": "prefixName.d[2]", "displayName": "[2]", "type": "number", "defaultValue":2, "children": [] },
+          {"name": "prefixName.d[3]", "displayName": "[3]", "type": "number", "defaultValue":3, "children": [] },
+          {"name": "prefixName.d[4]", "displayName": "[4]", "type": "number", "defaultValue":4, "children": [] },
+        ] }
+      ] }
+    ];
+    //console.log('yyyyy', JSON.stringify(RESULTS, "", 5));
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  it("build tree from object 5 ", function (done) {
+    const output = tools.buildTreeFromObject([{"name": "james", "address": [{"type": "home"}, {"type": "work"}]},{"name": "lena", "address": [{"type": "home"}, {"type": "work"}]}], "prefixName");
+    console.log('xxxxx',  JSON.stringify(output, "", 5));
+    const RESULTS =  [];
+    
+    //console.log('yyyyy', JSON.stringify(RESULTS, "", 5));
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
 });
