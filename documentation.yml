@@ -1,9 +1,11 @@
 toc:
   - name: Index
     children:
+      - buildTreeFromObject
       - getContentEditableData
       - getFlattenedObject
       - getVariableSelectData
+      - objectHasOwnPropery
       - replaceVariableInput
   
       

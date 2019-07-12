@@ -1,5 +1,6 @@
 
 "use strict";
+const jsonata = require("jsonata");
 /**
  * 
  * @description Flattens a JSON object into label and value pairs
@@ -259,6 +260,10 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
     if (!keyData){
       throw new Error('keyData invalid');
     }
+    if(typeof prefixName !== "string"){
+      console.warn("prefixName not a string, aborting...", prefixName);
+      return [];
+    }
     if (typeof(keyData) === "object"){
 
       // recursion
@@ -292,10 +297,50 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
  
 };
 
+/**
+ *
+ * @description This function takes determines if a string of dot notation matches the structure of a json object
+ * @param {*} obj - valid JSON object
+ * @param {*} dotNotation - JSON object dot notation for the object structure to be checked against
+ * @returns {boolean} - true if the object contains the property and matching structure
+ */
+const objectHasOwnPropery = (obj, dotNotation) => {
+  let theObj = obj;
+  let theString = dotNotation;
+  //invalid stringified json breaks jsonata.evaluate()
+  try{
+    if(obj === null || typeof obj !== "object" || typeof dotNotation !== "string"){
+      console.warn("parameter type mismatch, expecting object and string got: ", typeof obj, typeof dotNotation);
+      return false;
+    }
+    //jsonata does not like arrays as the root element. nest it in object as work-around
+    if(Array.isArray(obj)){
+      theObj = {
+        "root": obj
+      };
+      theString = `root${dotNotation}`;
+    }
+    console.log("theString: ", theString);
+    console.log("theObj: ", theObj);
+    console.log("results: ", jsonata(theString).evaluate(theObj));
+    if((jsonata(theString).evaluate(theObj))){
+      return true
+    };
+    
+    return false;
+
+  } catch (error){
+    //swallow error but warn
+    console.warn("objectHasOwnProperty query error: ", error.hasOwnProperty("message") ? error.message : "unspecified");
+    return false
+  }
+};
+
 module.exports = {
   replaceVariableInput,
   getVariableSelectData,
   getContentEditableData, 
   getFlattenedObject, 
-  buildTreeFromObject
+  buildTreeFromObject,
+  objectHasOwnPropery
 };

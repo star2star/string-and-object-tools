@@ -36,3 +36,4 @@ require("babel-polyfill");
 * 0.0.8 - fixed bug with flattened object with main object
 * 0.0.9 - add more unit tests for error conditions
 * 0.0.10 - buildTreeFromObject
+* 0.0.11 - objectHasOwnProperty

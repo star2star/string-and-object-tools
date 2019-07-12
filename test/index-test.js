@@ -385,7 +385,8 @@ describe("String and Object Tools Index", function () {
 
     done();
   });
-    it("build tree from object 3 ", function (done) {
+
+  it("build tree from object 3 ", function (done) {
     const output = tools.buildTreeFromObject({  "b": { "c": 2} }, "prefixName");
     //console.log('xxxxx', JSON.stringify(output, "", 5));
     const RESULTS = [
@@ -402,7 +403,7 @@ describe("String and Object Tools Index", function () {
     done();
   });
 
-    it("build tree from object 4 ", function (done) {
+  it("build tree from object 4 ", function (done) {
     const output = tools.buildTreeFromObject({ "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "prefixName");
     //console.log('xxxxx',  JSON.stringify(output, "", 5));
     const RESULTS = [
@@ -428,13 +429,341 @@ describe("String and Object Tools Index", function () {
 
   it("build tree from object 5 ", function (done) {
     const output = tools.buildTreeFromObject([{"name": "james", "address": [{"type": "home"}, {"type": "work"}]},{"name": "lena", "address": [{"type": "home"}, {"type": "work"}]}], "prefixName");
-    console.log('xxxxx',  JSON.stringify(output, "", 5));
-    const RESULTS =  [];
+    //console.log('xxxxx',  JSON.stringify(output, "", 5));
+    const RESULTS =  [
+      {
+        "name": "prefixName",
+        "displayName": "",
+        "type": "array",
+        "defaultValue": [
+          {
+            "name": "james",
+            "address": [
+              {
+                "type": "home"
+              },
+              {
+                "type": "work"
+              }
+            ]
+          },
+          {
+            "name": "lena",
+            "address": [
+              {
+                "type": "home"
+              },
+              {
+                "type": "work"
+              }
+            ]
+          }
+        ],
+        "children": [
+          {
+            "name": "prefixName[0]",
+            "displayName": "0",
+            "type": "object",
+            "defaultValue": {
+              "name": "james",
+              "address": [
+                {
+                  "type": "home"
+                },
+                {
+                  "type": "work"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "prefixName[0].name",
+                "displayName": "name",
+                "type": "string",
+                "defaultValue": "james",
+                "children": []
+              },
+              {
+                "name": "prefixName[0].address",
+                "displayName": "address",
+                "type": "array",
+                "defaultValue": [
+                  {
+                    "type": "home"
+                  },
+                  {
+                    "type": "work"
+                  }
+                ],
+                "children": [
+                  {
+                    "name": "prefixName[0].address[0]",
+                    "displayName": "0",
+                    "type": "object",
+                    "defaultValue": {
+                      "type": "home"
+                    },
+                    "children": [
+                      {
+                        "name": "prefixName[0].address[0].type",
+                        "displayName": "type",
+                        "type": "string",
+                        "defaultValue": "home",
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "prefixName[0].address[1]",
+                    "displayName": "1",
+                    "type": "object",
+                    "defaultValue": {
+                      "type": "work"
+                    },
+                    "children": [
+                      {
+                        "name": "prefixName[0].address[1].type",
+                        "displayName": "type",
+                        "type": "string",
+                        "defaultValue": "work",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "prefixName[1]",
+            "displayName": "1",
+            "type": "object",
+            "defaultValue": {
+              "name": "lena",
+              "address": [
+                {
+                  "type": "home"
+                },
+                {
+                  "type": "work"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "prefixName[1].name",
+                "displayName": "name",
+                "type": "string",
+                "defaultValue": "lena",
+                "children": []
+              },
+              {
+                "name": "prefixName[1].address",
+                "displayName": "address",
+                "type": "array",
+                "defaultValue": [
+                  {
+                    "type": "home"
+                  },
+                  {
+                    "type": "work"
+                  }
+                ],
+                "children": [
+                  {
+                    "name": "prefixName[1].address[0]",
+                    "displayName": "0",
+                    "type": "object",
+                    "defaultValue": {
+                      "type": "home"
+                    },
+                    "children": [
+                      {
+                        "name": "prefixName[1].address[0].type",
+                        "displayName": "type",
+                        "type": "string",
+                        "defaultValue": "home",
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "prefixName[1].address[1]",
+                    "displayName": "1",
+                    "type": "object",
+                    "defaultValue": {
+                      "type": "work"
+                    },
+                    "children": [
+                      {
+                        "name": "prefixName[1].address[1].type",
+                        "displayName": "type",
+                        "type": "string",
+                        "defaultValue": "work",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ];
     
     //console.log('yyyyy', JSON.stringify(RESULTS, "", 5));
     assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
 
     done();
+  });
+
+  it("build tree from object, no name", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": 2});
+    //console.log('xxxxx', JSON.stringify(output, null, "\t"));
+    const RESULTS = [
+      {
+        "name": "",
+        "displayName": "",
+        "type": "object",
+        "defaultValue": {
+          "a": 1,
+          "b": 2
+        },
+        "children": [
+          {
+            "name": ".a",
+            "displayName": "a",
+            "type": "number",
+            "defaultValue": 1,
+            "children": []
+          },
+          {
+            "name": ".b",
+            "displayName": "b",
+            "type": "number",
+            "defaultValue": 2,
+            "children": []
+          }
+        ]
+      }
+    ];
+
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  it("build tree from object, undefined name", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": 2}, undefined);
+    //console.log('xxxxx', JSON.stringify(output, null, "\t"));
+    const RESULTS = [
+      {
+        "name": "",
+        "displayName": "",
+        "type": "object",
+        "defaultValue": {
+          "a": 1,
+          "b": 2
+        },
+        "children": [
+          {
+            "name": ".a",
+            "displayName": "a",
+            "type": "number",
+            "defaultValue": 1,
+            "children": []
+          },
+          {
+            "name": ".b",
+            "displayName": "b",
+            "type": "number",
+            "defaultValue": 2,
+            "children": []
+          }
+        ]
+      }
+    ];
+
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  it("build tree from object, null name", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": 2}, null);
+    //console.log('xxxxx', JSON.stringify(output, null, "\t"));
+    const RESULTS = [];
+
+    assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  it("build tree from object, object name", function (done) {
+    const output = tools.buildTreeFromObject({ "a": 1, "b": 2}, {"foo":"bar"});
+    //console.log('xxxxx', JSON.stringify(output, null, "\t"));
+    const RESULTS = [];
+  
+  assert(JSON.stringify(output) ===  JSON.stringify(RESULTS));
+  
+  done();
+  });
+
+  it("build tree from object no params", function (done) {
+    try {
+      const output = tools.buildTreeFromObject();
+      console.log('xxxxx', JSON.stringify(output, null, "\t"));
+      //should never get here
+      assert(1 !== 1);
+    } catch (error) {
+      console.log(error.message);
+      assert(error.message === "keyData invalid");
+    }  
+  
+  done();
+  });
+
+  it("object has own property no params", function (done) {
+    try {
+      const output = tools.buildTreeFromObject();
+      console.log('xxxxx', JSON.stringify(output, null, "\t"));
+      //should never get here
+      assert(1 !== 1);
+    } catch (error) {
+      console.log(error.message);
+      assert(error.message === "keyData invalid");
+    }  
+  
+  done();
+  });
+
+  it("object has own property no params", function (done) {
+   assert(tools.objectHasOwnPropery() === false);
+  
+  done();
+  });
+
+  it("object has own property null params", function (done) {
+    assert(tools.objectHasOwnPropery(null, "a string") === false);
+   
+   done();
+  });
+
+  it("object has own property bad stringified dotNotation", function (done) {
+    assert(tools.objectHasOwnPropery({}, "[0]root.level1") === false);
+   
+   done();
+  });
+
+  it("object has own property good values", function (done) {
+    assert(tools.objectHasOwnPropery({ "root": {"level1": "foo"}}, "root.level1") === true);
+    assert(tools.objectHasOwnPropery({ "root": [{"level1": "foo"}]}, "root[0].level1") === true);
+    assert(tools.objectHasOwnPropery([{ "root": [{"level1": "foo"}]}], "[0].root[0].level1") === true);
+    assert(tools.objectHasOwnPropery(["a","b","c"], "[1]") === true);
+    assert(tools.objectHasOwnPropery({"a":1,"b":2}, "b") === true);
+
+   done();
   });
 
 });

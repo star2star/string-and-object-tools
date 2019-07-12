@@ -28,5 +28,8 @@
     "documentation": "8.0.2",
     "lodash": "4.17.11",
     "mocha": "5.2.0"
+  },
+  "dependencies": {
+    "jsonata": "^1.6.5"
   }
 }
