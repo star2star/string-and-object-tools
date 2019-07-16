@@ -352,6 +352,10 @@ const buildTreeFromApplication = (appObj, version) => {
   let newVersion = version;
   if (!version || version.length === 0 || Object.keys(appObj.content.versions).indexOf(version) === -1){
     // fix version 
+    if (Object.keys(appObj.content.versions).length === 0) {
+      console.warn('application does not have any versions ... returning blank ' );
+      return [];
+    }
     newVersion = Object.keys(appObj.content.versions)[0];
   }
   //console.log('vvvvvvv', newVersion);

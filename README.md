@@ -38,3 +38,4 @@ require("babel-polyfill");
 * 0.0.10 - buildTreeFromObject
 * 0.0.11 - objectHasOwnProperty
 * 0.0.12 - buildTreeFromApplication
+* 0.0.13 - fix bug with versions 
