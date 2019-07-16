@@ -304,7 +304,7 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
  * @param {*} dotNotation - JSON object dot notation for the object structure to be checked against
  * @returns {boolean} - true if the object contains the property and matching structure
  */
-const objectHasOwnPropery = (obj, dotNotation) => {
+const objectHasOwnProperty = (obj, dotNotation) => {
   let theObj = obj;
   let theString = dotNotation;
   //invalid stringified json breaks jsonata.evaluate()
@@ -459,6 +459,6 @@ module.exports = {
   getContentEditableData, 
   getFlattenedObject, 
   buildTreeFromObject,
-  objectHasOwnPropery,
+  objectHasOwnProperty,
   buildTreeFromApplication
 };
