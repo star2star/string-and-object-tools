@@ -320,9 +320,9 @@ const objectHasOwnPropery = (obj, dotNotation) => {
       };
       theString = `root${dotNotation}`;
     }
-    console.log("theString: ", theString);
-    console.log("theObj: ", theObj);
-    console.log("results: ", jsonata(theString).evaluate(theObj));
+    // console.log("theString: ", theString);
+    // console.log("theObj: ", theObj);
+    // console.log("results: ", jsonata(theString).evaluate(theObj));
     if((jsonata(theString).evaluate(theObj))){
       return true
     };
@@ -336,11 +336,138 @@ const objectHasOwnPropery = (obj, dotNotation) => {
   }
 };
 
+/**
+ *
+ * @description builds the tree object from an application object with version 
+ * @param {*} obj - application object 
+ * @param {String} version - JSON object dot notation for the object structure to be checked against
+ * @returns {array of <objects>} - array of objects in the form of {name, type, value }
+ */
+const buildTreeFromApplication = (appObj, version) => {
+  // verify appObj
+  if (typeof(appObj) !== "object" || !appObj.hasOwnProperty('content') || !appObj.content || !appObj.content.hasOwnProperty("versions") || !appObj.content.versions || Object.keys(appObj.content.versions).length <1){
+    console.warn('application object is invalid ', );
+    return [];
+  }
+  let newVersion = version;
+  if (!version || version.length === 0 || Object.keys(appObj.content.versions).indexOf(version) === -1){
+    // fix version 
+    newVersion = Object.keys(appObj.content.versions)[0];
+  }
+  //console.log('vvvvvvv', newVersion);
+
+  // ok get flows from version 
+  const myFlows = appObj.content.versions[newVersion].flows;
+
+  const buildChildFromOutputItem = (outputObj, prefixLabel, childrenArray=[]) =>{
+    //console.log('zzzzzzzzzz', outputObj);
+    return {"name": `${prefixLabel}${outputObj.name}`, "displayName": outputObj.name, "type": outputObj.dataType,  "defaultValue": outputObj.defaultValue, "children":childrenArray };
+  }
+
+  const getChildrenFromObject = (myObj, prefixLabel, dv) =>{
+    //console.log('zzzz', myObj, prefixLabel, dv);
+
+    const myReturn = [];
+    // handle it differently 
+    Object.keys(myObj).map((i)=>{
+      if (typeof(myObj[i]) === "object"){
+        // recurisve 
+        let myName = '';
+        let myType = Array.isArray(myObj[i]) ?  "array" : "object";
+        if (Array.isArray(myObj)){
+          dv[i] = myObj[i];
+          myName = `${prefixLabel}[${i}]`;
+        } else {
+          dv[i] = {};
+          myName = `${prefixLabel}.${i}`;
+        }
+        const myC = getChildrenFromObject(myObj[i], myName, dv[i]);
+        myReturn.push({"name": myName, "displayName": i, "type": myType,  "defaultValue": myObj[i], "children": myC});
+      } else {
+        let myName = '';
+        if (Array.isArray(myObj)){
+          dv[i] = myObj[i];
+          myName = `${prefixLabel}[${i}]`;
+        } else {
+          dv[i] = myObj[i];
+          myName = `${prefixLabel}.${i}`;
+        }
+        // adding to object treee 
+        
+        // array items are different so just build it here 
+        myReturn.push({"name": myName, "displayName": i, "type": typeof(myObj[i]),  "defaultValue": myObj[i], "children":[] });
+      }
+    });
+    // } else {
+    //   // straight obj
+    //   Object.keys(myObj).map((i)=>{
+    //     if (typeof(i) === "object"){
+    //       // recurisve 
+    //       console.log('jes', myObj, i)
+    //     } else {
+    //       // adding to object treee 
+    //       dv[i.name] = i.defaultValue;
+    //       myReturn.push(buildChildFromOutputItem(i, `${prefixLabel}.${i.name}`, []));
+    //     }
+    //   });
+    // }
+
+    return myReturn;
+  }
+
+  const getChildrenForFlow = (theFlow, flowName, dv) =>{
+    //console.log('xxxxxx', theFlow, flowName, dv);
+    const flowChildren = [];
+    
+    theFlow.nodes.map((n)=>{
+      if (n.hasOwnProperty("outputs") && n.outputs.length > 0){
+        n.outputs.map((o)=>{
+          if (o.dataType === "object" || o.dataType === "array") {
+            let pName="";
+            
+            if (o.dataType === "array"){
+              pName = `[${flowName}].${o.name}`;
+              dv[o.name] = [];
+            } else {
+              pName = `[${flowName}].${o.name}`;
+              dv[o.name] = {};
+            }
+            // recursion
+            const theC = getChildrenFromObject(o.defaultValue, pName, dv[o.name] );
+            
+            flowChildren.push(buildChildFromOutputItem(o, `[${flowName}]`, theC));
+          } else {
+            // base item
+            dv[o.name] = o.defaultValue;
+            flowChildren.push(buildChildFromOutputItem(o, `[${flowName}]`))
+          }
+        })
+      }
+    });
+    return flowChildren; 
+  }
+
+  return myFlows.reduce((p,f)=>{
+    const dv = {};
+    if (f.hasOwnProperty("parent_uuid") && f.parent_uuid && f.parent_uuid.length > 0 ){
+      // child so ignore it 
+      return p;
+    } else {
+      const c = getChildrenForFlow(f, f.name, dv);
+      //console.log('>>>>>', JSON.stringify(dv, "", 3));
+      return p.concat({"name": f.name, "displayName": f.name, "type": "object",  "defaultValue": dv, "children": c});
+    }
+
+  }, []);
+ 
+};
+
 module.exports = {
   replaceVariableInput,
   getVariableSelectData,
   getContentEditableData, 
   getFlattenedObject, 
   buildTreeFromObject,
-  objectHasOwnPropery
+  objectHasOwnPropery,
+  buildTreeFromApplication
 };

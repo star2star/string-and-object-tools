@@ -713,7 +713,7 @@ describe("String and Object Tools Index", function () {
   it("build tree from object no params", function (done) {
     try {
       const output = tools.buildTreeFromObject();
-      console.log('xxxxx', JSON.stringify(output, null, "\t"));
+      //console.log('xxxxx', JSON.stringify(output, null, "\t"));
       //should never get here
       assert(1 !== 1);
     } catch (error) {
@@ -727,7 +727,7 @@ describe("String and Object Tools Index", function () {
   it("object has own property no params", function (done) {
     try {
       const output = tools.buildTreeFromObject();
-      console.log('xxxxx', JSON.stringify(output, null, "\t"));
+      //console.log('xxxxx', JSON.stringify(output, null, "\t"));
       //should never get here
       assert(1 !== 1);
     } catch (error) {
@@ -764,6 +764,90 @@ describe("String and Object Tools Index", function () {
     assert(tools.objectHasOwnPropery({"a":1,"b":2}, "b") === true);
 
    done();
+  });
+
+  it("build tree from application", function(done){
+
+    //{"uuid":"508f8111-7daf-43ab-9ead-a85815bc4939","name":"test","type":"starpaas_application","resource_status":"complete","description":"hello","content_type":"application/json","content":{"account_uuid":"75d7d40f-4250-4bef-9f6f-ef1f909f9947","display_name":"test","admins":[],"icon":"AttachmentIconSVG","icon_color":"#5300eb","versions":{"1.0.0":{"version":"1.0.0","version_description":"","creation_timestamp":1562852518296,"creation_author":"James Schimmoeller","status":"inactive","flows":[{"name":"send","description":"","uuid":"c5b4bd9e-9486-4736-b988-8747e5cf31ab","version":"1.0.0","status":"inactive","states":[],"transitions":[],"users":{"account_uuid":"75d7d40f-4250-4bef-9f6f-ef1f909f9947","user_uuids":[]},"globals":{},"nodes":[{"name":"Trigger Manually","description":"Start a Workflow on demand - primarily used for debugging.","type":"start","componentName":"Start","componentType":"node","svg":"PlayIconSVG","svgBackgroundColor":"#2f9e44","svgFillColor":"#FFFFFF","category":"trigger","formData":{"name":"Trigger Manually","description":"Start a Workflow on demand - primarily used for debugging.","nextState":"Read Data Table","startParameters":[]},"position":{"width":96,"height":96,"x":200,"y":10},"uuid":"3c71b330-c9ab-41e5-98f5-528f41314b96","inputs":[{"name":"name","dataDefinition":"hello","dataType":"string","defaultValue":"James","uuid":"298c5d56-e4b9-4ddd-ad01-418cc3eeb6fc"}],"sampleData":{},"outputs":[{"name":"name","dataDefinition":"$name","dataType":"string","defaultValue":"James","uuid":"d192f292-5f3c-4bdf-a081-b13978690ff8"}]},{"name":"End Workflow","description":"Indicate the end of a Workflow (required).","type":"finish","componentName":"End","componentType":"node","svg":"StopIconSVG","svgBackgrounColor":"#e03131","svgFillColor":"#FFFFFF","category":"activity","formData":{"name":"End Workflow","description":"Indicate the end of a Workflow (required)."},"position":{"height":96,"width":96,"x":277,"y":580},"uuid":"0d061b06-a1ad-4ed9-96c4-28f912716151"},{"name":"Read Data Table","description":"Read from a pre-built data table","type":"data","componentName":"Data","componentType":"node","svg":"DataIconSVG","svgFillColor":"#FFFFFF","svgBackgroundColor":"#069697","category":"activity","formData":{"name":"Read Data Table","description":"Read from a pre-built data table","dataUUID":"e07b4c26-7468-4ea4-862f-3087a3723eaf","nextState":"Send Mass Notification","onError":"","onTimeout":"","timeout":"30000","componentName":"Data","definitions":{"dataUUIDs":{"type":"string","enum":["","e07b4c26-7468-4ea4-862f-3087a3723eaf"],"enumNames":["","peeps"]},"nextState":{"type":"string","enum":["","Trigger Manually","End Workflow","Read Data Table"]}}},"position":{"height":88,"width":300,"x":99,"y":188},"uuid":"c7189e8a-5f9e-42fc-a60e-912193d20a18","sampleData":{"modality":"sms","name":"james","value":"9418076677"},"outputs":[{"name":"whatName","dataDefinition":"$whatName","dataType":"string","defaultValue":"Lena","uuid":"1debdd3c-9e13-453e-b187-f2a390006d93"},{"name":"people","dataDefinition":"$","dataType":"array","defaultValue":"[{\"email\":\"jschimmoeller@gmail.com\",\"name\":\"james e schimmoeller\",\"phone\":\"8418076677\"},{\"email\":\"gods.axle@yahoo.com\",\"name\":\"LENA A SCHIMMOELLER\",\"phone\":\"9413069926\"}]","uuid":"6eac1b7c-8295-42a0-8628-36ab0597b234"},{"name":"Account.Order[0].Product[0].Product Name","dataDefinition":"$Account.Order[0].Product[0].Product Name","dataType":"string","defaultValue":"Bowler Hat","uuid":"27025264-c3be-46e4-8162-40f024f9ee47"},{"name":"Account.Order[1].Product[0].Price","dataDefinition":"$Account.Order[1].Product[0].Price","dataType":"number","defaultValue":34.45,"uuid":"5101f29a-eecd-441f-a40f-7313e8550184"},{"name":"mywidth","dataDefinition":"$Account.Order[0].Product[1].Description.Width","dataType":"number","defaultValue":300,"uuid":"32314a70-4bef-47fd-863a-c6bf8972fee9"}],"inputs":[{"name":"whatName","dataDefinition":"","dataType":"string","defaultValue":"Lena","uuid":"799217ea-b2e4-42bf-a972-4e46c73e23eb"}]},{"name":"Send Mass Notification","description":"Send a notification to a list of SMS numbers and/or email addresses.","type":"notification","componentName":"Notification","componentType":"node","svg":"BellFilledIconSVG","svgFillColor":"#FFFFFF","svgBackgroundColor":"#069697","category":"activity","formData":{"name":"Send Mass Notification","description":"Send a notification to a list of SMS numbers and/or email addresses.","data":"","sendSMS":true,"sendEmail":true,"subject":"","body":"","confirmation":false,"confirmationWorkspace":"","nextState":"End Workflow","onError":"","onTimeout":"","timeout":"30000","resultPath":"","user_uuid":"109233ec-0e59-4888-b4e5-967c6e30f089","enableReminders":false,"maxReminders":"","reminderTimeout":""},"position":{"x":97,"y":390},"uuid":"424060e6-6e23-435f-a960-240d2973e89b"}],"parent_uuid":""}],"workspaces":[]}}},"audit":{"created_date":"2019-07-11T13:41:58.000Z","created_by":"109233ec-0e59-4888-b4e5-967c6e30f089","updated_date":"2019-07-12T14:03:44.000Z","updated_by":"109233ec-0e59-4888-b4e5-967c6e30f089"},"metadata":{"permissions":["*"]}};
+
+    const myApp = {"content":{"versions":{"1.0.0":{
+      "flows":[{
+        "name": "send",
+        "nodes": [{
+          "outputs":[{
+            "dataDefinition": "$name",
+            "dataType": "string",
+            "defaultValue": "james",
+            "name": "name",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          }]
+        }]
+      }]
+    }}}}
+    //console.log(JSON.stringify(myApp, "", 3));
+    const x = tools.buildTreeFromApplication(myApp, "1.0.0");
+    //console.log('zzzzz', JSON.stringify(x, "", 0));
+    const RESULTS = [{"name":"send","displayName":"send","type":"object","defaultValue":{"name":"james"},"children":[{"name":"[send]name","displayName":"name","type":"string","defaultValue":"james","children":[]}]}];
+    assert(JSON.stringify(x) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+
+  it("build tree from application - bad version", function(done){
+
+    const myApp = {"content":{"versions":{"1.0.0":{
+      "flows":[{
+        "name": "send",
+        "nodes": [{
+          "outputs":[{
+            "dataDefinition": "$name",
+            "dataType": "string",
+            "defaultValue": "james",
+            "name": "name",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          },
+          {
+            "dataDefinition": "$modality",
+            "dataType": "string",
+            "defaultValue": "sms",
+            "name": "modality",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          },
+          {
+            "dataDefinition": "$value",
+            "dataType": "string",
+            "defaultValue": "9418076677",
+            "name": "value",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          },
+          {
+            "dataDefinition": "$people",
+            "dataType": "array",
+            "defaultValue": [{"name": "james", "modality": "sms", "value":"9418076677"},{"name": "lena", "modality": "sms", "value":"9413069926"} ],
+            "name": "people",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          },
+        ]
+        }]
+      }]
+    }}}}
+    //console.log(JSON.stringify(myApp, "", 3));
+    const x = tools.buildTreeFromApplication(myApp, "4.0.0");
+    //console.log('output', JSON.stringify(x, "", 1));
+    const RESULTS = [{"name":"send","displayName":"send","type":"object","defaultValue":{"name":"james","modality":"sms","value":"9418076677","people":[{"name":"james","modality":"sms","value":"9418076677"},{"name":"lena","modality":"sms","value":"9413069926"}]},"children":[{"name":"[send]name","displayName":"name","type":"string","defaultValue":"james","children":[]},{"name":"[send]modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send]value","displayName":"value","type":"string","defaultValue":"9418076677","children":[]},{"name":"[send]people","displayName":"people","type":"array","defaultValue":[{"name":"james","modality":"sms","value":"9418076677"},{"name":"lena","modality":"sms","value":"9413069926"}],"children":[{"name":"[send].people[0]","displayName":"0","type":"object","defaultValue":{"name":"james","modality":"sms","value":"9418076677"},"children":[{"name":"[send].people[0].name","displayName":"name","type":"string","defaultValue":"james","children":[]},{"name":"[send].people[0].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[0].value","displayName":"value","type":"string","defaultValue":"9418076677","children":[]}]},{"name":"[send].people[1]","displayName":"1","type":"object","defaultValue":{"name":"lena","modality":"sms","value":"9413069926"},"children":[{"name":"[send].people[1].name","displayName":"name","type":"string","defaultValue":"lena","children":[]},{"name":"[send].people[1].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[1].value","displayName":"value","type":"string","defaultValue":"9413069926","children":[]}]}]}]}]
+    assert(JSON.stringify(x) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  it("build tree from application - invalid application ", function(done){
+
+    assert(JSON.stringify(tools.buildTreeFromApplication({}, "")) ===  JSON.stringify([]));
+    assert(JSON.stringify(tools.buildTreeFromApplication([], "")) ===  JSON.stringify([]));
+    assert(JSON.stringify(tools.buildTreeFromApplication({"content":{}}, "")) ===  JSON.stringify([]));
+    assert(JSON.stringify(tools.buildTreeFromApplication({"content":{"versions":{}}}, "")) ===  JSON.stringify([]));
+    done();
   });
 
 });
