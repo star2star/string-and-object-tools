@@ -398,19 +398,6 @@ const buildTreeFromApplication = (appObj, version) => {
         myReturn.push({"name": myName, "displayName": i, "type": typeof(myObj[i]),  "defaultValue": myObj[i], "children":[] });
       }
     });
-    // } else {
-    //   // straight obj
-    //   Object.keys(myObj).map((i)=>{
-    //     if (typeof(i) === "object"){
-    //       // recurisve 
-    //       console.log('jes', myObj, i)
-    //     } else {
-    //       // adding to object treee 
-    //       dv[i.name] = i.defaultValue;
-    //       myReturn.push(buildChildFromOutputItem(i, `${prefixLabel}.${i.name}`, []));
-    //     }
-    //   });
-    // }
 
     return myReturn;
   }
