@@ -374,7 +374,7 @@ const buildTreeFromApplication = (appObj, version) => {
     const myReturn = [];
     // handle it differently 
     Object.keys(myObj).map((i)=>{
-      if (typeof(myObj[i]) === "object"){
+      if (typeof(myObj[i]) === "object" && myObj[i] !== null ){
         // recurisve 
         let myName = '';
         let myType = Array.isArray(myObj[i]) ?  "array" : "object";

@@ -717,7 +717,7 @@ describe("String and Object Tools Index", function () {
       //should never get here
       assert(1 !== 1);
     } catch (error) {
-      console.log(error.message);
+      console.log('........', error.message);
       assert(error.message === "keyData invalid");
     }  
   
@@ -739,29 +739,29 @@ describe("String and Object Tools Index", function () {
   });
 
   it("object has own property no params", function (done) {
-   assert(tools.objectHasOwnPropery() === false);
+   assert(tools.objectHasOwnProperty() === false);
   
   done();
   });
 
   it("object has own property null params", function (done) {
-    assert(tools.objectHasOwnPropery(null, "a string") === false);
+    assert(tools.objectHasOwnProperty(null, "a string") === false);
    
    done();
   });
 
   it("object has own property bad stringified dotNotation", function (done) {
-    assert(tools.objectHasOwnPropery({}, "[0]root.level1") === false);
+    assert(tools.objectHasOwnProperty({}, "[0]root.level1") === false);
    
    done();
   });
 
   it("object has own property good values", function (done) {
-    assert(tools.objectHasOwnPropery({ "root": {"level1": "foo"}}, "root.level1") === true);
-    assert(tools.objectHasOwnPropery({ "root": [{"level1": "foo"}]}, "root[0].level1") === true);
-    assert(tools.objectHasOwnPropery([{ "root": [{"level1": "foo"}]}], "[0].root[0].level1") === true);
-    assert(tools.objectHasOwnPropery(["a","b","c"], "[1]") === true);
-    assert(tools.objectHasOwnPropery({"a":1,"b":2}, "b") === true);
+    assert(tools.objectHasOwnProperty({ "root": {"level1": "foo"}}, "root.level1") === true);
+    assert(tools.objectHasOwnProperty({ "root": [{"level1": "foo"}]}, "root[0].level1") === true);
+    assert(tools.objectHasOwnProperty([{ "root": [{"level1": "foo"}]}], "[0].root[0].level1") === true);
+    assert(tools.objectHasOwnProperty(["a","b","c"], "[1]") === true);
+    assert(tools.objectHasOwnProperty({"a":1,"b":2}, "b") === true);
 
    done();
   });
@@ -847,6 +847,201 @@ describe("String and Object Tools Index", function () {
     assert(JSON.stringify(tools.buildTreeFromApplication([], "")) ===  JSON.stringify([]));
     assert(JSON.stringify(tools.buildTreeFromApplication({"content":{}}, "")) ===  JSON.stringify([]));
     assert(JSON.stringify(tools.buildTreeFromApplication({"content":{"versions":{}}}, "")) ===  JSON.stringify([]));
+    done();
+  });
+
+  it("build tree from application - null ", function(done){
+
+    const myApp = {"content":{"versions":{"1.0.0":{
+      "flows":[{
+        "name": "send",
+        "nodes": [{
+          "outputs":[
+          {
+            "dataDefinition": "$people",
+            "dataType": "array",
+            "defaultValue": {
+              "address": {
+                "street": "625 Joseph Dr",
+                "state": "OH",
+                "postalCode": "44202",
+                "longitude": null,
+                "latitude": null,
+                "geocodeAccuracy": null,
+                "country": "US",
+                "city": "Aurora"
+              },
+              "ticket": 156,
+              "name": "Sergey Galchenko",
+              "email": "sgalchenko@yahoo.com",
+              "caller_id": "+12164704017",
+              "call_transcription": "yeah this is James in apartment 1601 I am locked out",
+              "formatted_caller_id": "(216) 470-4017"
+              },
+            "name": "people",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          }
+        ]
+        }]
+      }]
+    }}}}
+    //console.log(JSON.stringify(myApp, "", 3));
+    const x = tools.buildTreeFromApplication(myApp, "4.0.0");
+    //console.log('output', JSON.stringify(x, "", 1));
+    const RESULTS = [
+      {
+       "name": "send",
+       "displayName": "send",
+       "type": "object",
+       "defaultValue": {
+        "people": []
+       },
+       "children": [
+        {
+         "name": "[send]people",
+         "displayName": "people",
+         "type": "array",
+         "defaultValue": {
+          "address": {
+           "street": "625 Joseph Dr",
+           "state": "OH",
+           "postalCode": "44202",
+           "longitude": null,
+           "latitude": null,
+           "geocodeAccuracy": null,
+           "country": "US",
+           "city": "Aurora"
+          },
+          "ticket": 156,
+          "name": "Sergey Galchenko",
+          "email": "sgalchenko@yahoo.com",
+          "caller_id": "+12164704017",
+          "call_transcription": "yeah this is James in apartment 1601 I am locked out",
+          "formatted_caller_id": "(216) 470-4017"
+         },
+         "children": [
+          {
+           "name": "[send].people.address",
+           "displayName": "address",
+           "type": "object",
+           "defaultValue": {
+            "street": "625 Joseph Dr",
+            "state": "OH",
+            "postalCode": "44202",
+            "longitude": null,
+            "latitude": null,
+            "geocodeAccuracy": null,
+            "country": "US",
+            "city": "Aurora"
+           },
+           "children": [
+            {
+             "name": "[send].people.address.street",
+             "displayName": "street",
+             "type": "string",
+             "defaultValue": "625 Joseph Dr",
+             "children": []
+            },
+            {
+             "name": "[send].people.address.state",
+             "displayName": "state",
+             "type": "string",
+             "defaultValue": "OH",
+             "children": []
+            },
+            {
+             "name": "[send].people.address.postalCode",
+             "displayName": "postalCode",
+             "type": "string",
+             "defaultValue": "44202",
+             "children": []
+            },
+            {
+             "name": "[send].people.address.longitude",
+             "displayName": "longitude",
+             "type": "object",
+             "defaultValue": null,
+             "children": []
+            },
+            {
+             "name": "[send].people.address.latitude",
+             "displayName": "latitude",
+             "type": "object",
+             "defaultValue": null,
+             "children": []
+            },
+            {
+             "name": "[send].people.address.geocodeAccuracy",
+             "displayName": "geocodeAccuracy",
+             "type": "object",
+             "defaultValue": null,
+             "children": []
+            },
+            {
+             "name": "[send].people.address.country",
+             "displayName": "country",
+             "type": "string",
+             "defaultValue": "US",
+             "children": []
+            },
+            {
+             "name": "[send].people.address.city",
+             "displayName": "city",
+             "type": "string",
+             "defaultValue": "Aurora",
+             "children": []
+            }
+           ]
+          },
+          {
+           "name": "[send].people.ticket",
+           "displayName": "ticket",
+           "type": "number",
+           "defaultValue": 156,
+           "children": []
+          },
+          {
+           "name": "[send].people.name",
+           "displayName": "name",
+           "type": "string",
+           "defaultValue": "Sergey Galchenko",
+           "children": []
+          },
+          {
+           "name": "[send].people.email",
+           "displayName": "email",
+           "type": "string",
+           "defaultValue": "sgalchenko@yahoo.com",
+           "children": []
+          },
+          {
+           "name": "[send].people.caller_id",
+           "displayName": "caller_id",
+           "type": "string",
+           "defaultValue": "+12164704017",
+           "children": []
+          },
+          {
+           "name": "[send].people.call_transcription",
+           "displayName": "call_transcription",
+           "type": "string",
+           "defaultValue": "yeah this is James in apartment 1601 I am locked out",
+           "children": []
+          },
+          {
+           "name": "[send].people.formatted_caller_id",
+           "displayName": "formatted_caller_id",
+           "type": "string",
+           "defaultValue": "(216) 470-4017",
+           "children": []
+          }
+         ]
+        }
+       ]
+      }
+     ];
+    assert(JSON.stringify(x) ===  JSON.stringify(RESULTS));
+
     done();
   });
 
