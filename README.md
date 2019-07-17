@@ -41,3 +41,4 @@ require("babel-polyfill");
 * 0.0.13 - fix bug with versions 
 * 0.0.14 - objectHasOwnProperty 
 * 0.0.15 - null objects fix 
+* 0.0.16 - fix to publish bad stuff 
