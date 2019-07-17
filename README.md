@@ -43,3 +43,4 @@ require("babel-polyfill");
 * 0.0.15 - null objects fix 
 * 0.0.16 - fix to publish bad stuff 
 * 0.0.17 - fix to null object take 2 
+* 0.0.18 - fix issue with buildTreeFromApplication - defaultValue was object but string type 

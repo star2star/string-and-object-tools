@@ -424,7 +424,8 @@ const buildTreeFromApplication = (appObj, version) => {
               dv[o.name] = {};
             }
             // recursion
-            const theC = getChildrenFromObject(o.defaultValue, pName, dv[o.name] );
+            const myObj = (typeof(o.defaultValue) === "string" ? JSON.parse(o.defaultValue) : o.defaultValue);
+            const theC = getChildrenFromObject(myObj, pName, dv[o.name] );
             
             flowChildren.push(buildChildFromOutputItem(o, `[${flowName}]`, theC));
           } else {
