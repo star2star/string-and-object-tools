@@ -269,7 +269,7 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
       // recursion
       const myChildren = Object.keys(keyData).map((k)=>{
         // is child an object 
-        if (typeof(keyData[k])=== "object"){
+        if (typeof(keyData[k])=== "object" && keyData[k] !== null){
           //console.log('zzzzz', keyData, k)
           return getKeyData(keyData[k], (Array.isArray(keyData) ? `${prefixLabel}[${k}]` : `${prefixLabel}.${k}`), level++, k);
         } else {
