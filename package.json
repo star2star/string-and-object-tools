@@ -1,6 +1,6 @@
 {
   "name": "string-and-object-tools",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "assorted utilites for working with strings and objects",
   "main": "lib/index.js",
   "scripts": {

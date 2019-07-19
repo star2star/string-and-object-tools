@@ -291,7 +291,7 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
     
   }
 
-  myReturn = myReturn.concat(getKeyData(sampleData, prefixName, 0));
+  myReturn = myReturn.concat(getKeyData(sampleData, prefixName, 0, prefixName));
 
   return myReturn;
  

@@ -361,7 +361,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.buildTreeFromObject({ "a": 1}, "prefixName");
     //console.log('xxxxx', JSON.stringify(output, "", 5));
     const RESULTS = [
-      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": { "a": 1}, "children": [
+      {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1}, "children": [
         {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] } 
       ] }
     ];
@@ -375,7 +375,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.buildTreeFromObject({ "a": 1, "b": 2}, "prefixName");
     //console.log('xxxxx', JSON.stringify(output, "", 5));
     const RESULTS = [
-      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": { "a": 1, "b": 2}, "children": [
+      {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": 2}, "children": [
         {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
         {"name": "prefixName.b", "displayName": "b", "type": "number", "defaultValue":2, "children": [] }  
       ] }
@@ -390,7 +390,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.buildTreeFromObject({  "b": { "c": 2} }, "prefixName");
     //console.log('xxxxx', JSON.stringify(output, "", 5));
     const RESULTS = [
-      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": {  "b": { "c": 2} }, "children": [
+      {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": {  "b": { "c": 2} }, "children": [
         {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
           {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
         ] }
@@ -407,7 +407,7 @@ describe("String and Object Tools Index", function () {
     const output = tools.buildTreeFromObject({ "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "prefixName");
     //console.log('xxxxx',  JSON.stringify(output, "", 5));
     const RESULTS = [
-      {"name": "prefixName", "displayName": "", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
+      {"name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2}, d: [0,1,2,3,4]}, "children": [
         {"name": "prefixName.a", "displayName": "a", "type": "number", "defaultValue":1, "children": [] },
         {"name": "prefixName.b", "displayName": "b", "type": "object", "defaultValue":{ "c": 2}, "children": [
           {"name": "prefixName.b.c", "displayName": "c", "type": "number", "defaultValue":2, "children": [] }
@@ -433,7 +433,7 @@ describe("String and Object Tools Index", function () {
     const RESULTS =  [
       {
         "name": "prefixName",
-        "displayName": "",
+        "displayName": "prefixName",
         "type": "array",
         "defaultValue": [
           {
@@ -1084,13 +1084,70 @@ describe("String and Object Tools Index", function () {
     }}}}
     //console.log(JSON.stringify(myApp, "", 3));
     const x = tools.buildTreeFromApplication(myApp, "4.0.0");
-    //console.log('output', JSON.stringify(x, "", 0));
+    //console.log('output', JSON.stringify(x, "", 2));
     const RESULTS = [{"name":"send","displayName":"send","type":"object","defaultValue":{"name":"james","modality":"sms","value":"9418076677","people":[{"modality":"sms","name":"james","value":"9418076677"},{"modality":"sms","name":"mary","value":"1"},{"modality":"sms","name":"nate","value":"b"},{"modality":"sms","name":"duncan","value":"a"},{"modality":"sms","name":"brian","value":"a"},{"modality":"sms","name":"tom","value":"z"},{"modality":"sms","name":"bobby","value":"a"},{"modality":"sms","name":"lena","value":"a"}]},"children":[{"name":"[send]name","displayName":"name","type":"string","defaultValue":"james","children":[]},{"name":"[send]modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send]value","displayName":"value","type":"string","defaultValue":"9418076677","children":[]},{"name":"[send]people","displayName":"people","type":"array","defaultValue":"[{\"modality\":\"sms\",\"name\":\"james\",\"value\":\"9418076677\"},{\"modality\":\"sms\",\"name\":\"mary\",\"value\":\"1\"},{\"modality\":\"sms\",\"name\":\"nate\",\"value\":\"b\"},{\"modality\":\"sms\",\"name\":\"duncan\",\"value\":\"a\"},{\"modality\":\"sms\",\"name\":\"brian\",\"value\":\"a\"},{\"modality\":\"sms\",\"name\":\"tom\",\"value\":\"z\"},{\"modality\":\"sms\",\"name\":\"bobby\",\"value\":\"a\"},{\"modality\":\"sms\",\"name\":\"lena\",\"value\":\"a\"}]","children":[{"name":"[send].people[0]","displayName":"0","type":"object","defaultValue":{"modality":"sms","name":"james","value":"9418076677"},"children":[{"name":"[send].people[0].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[0].name","displayName":"name","type":"string","defaultValue":"james","children":[]},{"name":"[send].people[0].value","displayName":"value","type":"string","defaultValue":"9418076677","children":[]}]},{"name":"[send].people[1]","displayName":"1","type":"object","defaultValue":{"modality":"sms","name":"mary","value":"1"},"children":[{"name":"[send].people[1].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[1].name","displayName":"name","type":"string","defaultValue":"mary","children":[]},{"name":"[send].people[1].value","displayName":"value","type":"string","defaultValue":"1","children":[]}]},{"name":"[send].people[2]","displayName":"2","type":"object","defaultValue":{"modality":"sms","name":"nate","value":"b"},"children":[{"name":"[send].people[2].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[2].name","displayName":"name","type":"string","defaultValue":"nate","children":[]},{"name":"[send].people[2].value","displayName":"value","type":"string","defaultValue":"b","children":[]}]},{"name":"[send].people[3]","displayName":"3","type":"object","defaultValue":{"modality":"sms","name":"duncan","value":"a"},"children":[{"name":"[send].people[3].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[3].name","displayName":"name","type":"string","defaultValue":"duncan","children":[]},{"name":"[send].people[3].value","displayName":"value","type":"string","defaultValue":"a","children":[]}]},{"name":"[send].people[4]","displayName":"4","type":"object","defaultValue":{"modality":"sms","name":"brian","value":"a"},"children":[{"name":"[send].people[4].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[4].name","displayName":"name","type":"string","defaultValue":"brian","children":[]},{"name":"[send].people[4].value","displayName":"value","type":"string","defaultValue":"a","children":[]}]},{"name":"[send].people[5]","displayName":"5","type":"object","defaultValue":{"modality":"sms","name":"tom","value":"z"},"children":[{"name":"[send].people[5].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[5].name","displayName":"name","type":"string","defaultValue":"tom","children":[]},{"name":"[send].people[5].value","displayName":"value","type":"string","defaultValue":"z","children":[]}]},{"name":"[send].people[6]","displayName":"6","type":"object","defaultValue":{"modality":"sms","name":"bobby","value":"a"},"children":[{"name":"[send].people[6].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[6].name","displayName":"name","type":"string","defaultValue":"bobby","children":[]},{"name":"[send].people[6].value","displayName":"value","type":"string","defaultValue":"a","children":[]}]},{"name":"[send].people[7]","displayName":"7","type":"object","defaultValue":{"modality":"sms","name":"lena","value":"a"},"children":[{"name":"[send].people[7].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"[send].people[7].name","displayName":"name","type":"string","defaultValue":"lena","children":[]},{"name":"[send].people[7].value","displayName":"value","type":"string","defaultValue":"a","children":[]}]}]}]}];
 
     assert(JSON.stringify(x) ===  JSON.stringify(RESULTS));
 
     done();
   });
+  it("build tree from application - null ", function(done){
 
+    const myApp = {"content":{"versions":{"1.0.0":{
+      "flows":[{
+        "name": "send",
+        "nodes": [{
+          "outputs":[
+          {
+            "dataDefinition": "$people",
+            "dataType": "array",
+            "defaultValue": {
+              "address": {
+                "street": "625 Joseph Dr",
+                "state": "OH",
+                "postalCode": "44202",
+                "longitude": null,
+                "latitude": null,
+                "geocodeAccuracy": null,
+                "country": "US",
+                "city": "Aurora"
+              },
+              "ticket": 156,
+              "name": "Sergey Galchenko",
+              "email": "sgalchenko@yahoo.com",
+              "caller_id": "+12164704017",
+              "call_transcription": "yeah this is James in apartment 1601 I am locked out",
+              "formatted_caller_id": "(216) 470-4017"
+              },
+            "name": "people",
+            "uuid": "12121-12121-e34r3-4-r4-df-df-d"
+          }
+        ]
+        }]
+      }]
+    }}}}
+    //console.log(JSON.stringify(myApp, "", 3));
+    const x = tools.buildTreeFromApplication(myApp, "4.0.0");
+    //console.log('output', JSON.stringify(x, "", 0));
+    const RESULTS = [{"name":"send","displayName":"send","type":"object","defaultValue":{"people":[]},"children":[{"name":"[send]people","displayName":"people","type":"array","defaultValue":{"address":{"street":"625 Joseph Dr","state":"OH","postalCode":"44202","longitude":null,"latitude":null,"geocodeAccuracy":null,"country":"US","city":"Aurora"},"ticket":156,"name":"Sergey Galchenko","email":"sgalchenko@yahoo.com","caller_id":"+12164704017","call_transcription":"yeah this is James in apartment 1601 I am locked out","formatted_caller_id":"(216) 470-4017"},"children":[{"name":"[send].people.address","displayName":"address","type":"object","defaultValue":{"street":"625 Joseph Dr","state":"OH","postalCode":"44202","longitude":null,"latitude":null,"geocodeAccuracy":null,"country":"US","city":"Aurora"},"children":[{"name":"[send].people.address.street","displayName":"street","type":"string","defaultValue":"625 Joseph Dr","children":[]},{"name":"[send].people.address.state","displayName":"state","type":"string","defaultValue":"OH","children":[]},{"name":"[send].people.address.postalCode","displayName":"postalCode","type":"string","defaultValue":"44202","children":[]},{"name":"[send].people.address.longitude","displayName":"longitude","type":"object","defaultValue":null,"children":[]},{"name":"[send].people.address.latitude","displayName":"latitude","type":"object","defaultValue":null,"children":[]},{"name":"[send].people.address.geocodeAccuracy","displayName":"geocodeAccuracy","type":"object","defaultValue":null,"children":[]},{"name":"[send].people.address.country","displayName":"country","type":"string","defaultValue":"US","children":[]},{"name":"[send].people.address.city","displayName":"city","type":"string","defaultValue":"Aurora","children":[]}]},{"name":"[send].people.ticket","displayName":"ticket","type":"number","defaultValue":156,"children":[]},{"name":"[send].people.name","displayName":"name","type":"string","defaultValue":"Sergey Galchenko","children":[]},{"name":"[send].people.email","displayName":"email","type":"string","defaultValue":"sgalchenko@yahoo.com","children":[]},{"name":"[send].people.caller_id","displayName":"caller_id","type":"string","defaultValue":"+12164704017","children":[]},{"name":"[send].people.call_transcription","displayName":"call_transcription","type":"string","defaultValue":"yeah this is James in apartment 1601 I am locked out","children":[]},{"name":"[send].people.formatted_caller_id","displayName":"formatted_caller_id","type":"string","defaultValue":"(216) 470-4017","children":[]}]}]}];
+
+    assert(JSON.stringify(x) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
+
+  it("build tree from application - something  ", function(done){
+
+    const myObj = [{"modality":"sms","name":"james","value":"9418076677"},{"modality":"sms","name":"mary","value":"1"}];
+
+    //console.log(JSON.stringify(myApp, "", 3));
+    const x = tools.buildTreeFromObject(myObj, "people");
+    //console.log('output', JSON.stringify(x, "", 0));
+    const RESULTS = [{"name":"people","displayName":"people","type":"array","defaultValue":[{"modality":"sms","name":"james","value":"9418076677"},{"modality":"sms","name":"mary","value":"1"}],"children":[{"name":"people[0]","displayName":"0","type":"object","defaultValue":{"modality":"sms","name":"james","value":"9418076677"},"children":[{"name":"people[0].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"people[0].name","displayName":"name","type":"string","defaultValue":"james","children":[]},{"name":"people[0].value","displayName":"value","type":"string","defaultValue":"9418076677","children":[]}]},{"name":"people[1]","displayName":"1","type":"object","defaultValue":{"modality":"sms","name":"mary","value":"1"},"children":[{"name":"people[1].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"people[1].name","displayName":"name","type":"string","defaultValue":"mary","children":[]},{"name":"people[1].value","displayName":"value","type":"string","defaultValue":"1","children":[]}]}]}];
+
+    assert(JSON.stringify(x) ===  JSON.stringify(RESULTS));
+
+    done();
+  });
 
 });
