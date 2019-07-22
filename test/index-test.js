@@ -1,6 +1,7 @@
 const assert = require("assert");
 const tools = require("../src/index");
 const _ = require("lodash");
+const objectmerge = require("object-merge");
 
 describe("String and Object Tools Index", function () {
  
@@ -1142,6 +1143,8 @@ describe("String and Object Tools Index", function () {
 
     //console.log(JSON.stringify(myApp, "", 3));
     const x = tools.buildTreeFromObject(myObj, "people");
+    const z = objectmerge({}, x);
+
     //console.log('output', JSON.stringify(x, "", 0));
     const RESULTS = [{"name":"people","displayName":"people","type":"array","defaultValue":[{"modality":"sms","name":"james","value":"9418076677"},{"modality":"sms","name":"mary","value":"1"}],"children":[{"name":"people[0]","displayName":"0","type":"object","defaultValue":{"modality":"sms","name":"james","value":"9418076677"},"children":[{"name":"people[0].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"people[0].name","displayName":"name","type":"string","defaultValue":"james","children":[]},{"name":"people[0].value","displayName":"value","type":"string","defaultValue":"9418076677","children":[]}]},{"name":"people[1]","displayName":"1","type":"object","defaultValue":{"modality":"sms","name":"mary","value":"1"},"children":[{"name":"people[1].modality","displayName":"modality","type":"string","defaultValue":"sms","children":[]},{"name":"people[1].name","displayName":"name","type":"string","defaultValue":"mary","children":[]},{"name":"people[1].value","displayName":"value","type":"string","defaultValue":"1","children":[]}]}]}];
 

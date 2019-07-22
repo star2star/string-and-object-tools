@@ -1,6 +1,8 @@
 
 "use strict";
 const jsonata = require("jsonata");
+const objectmerge = require("object-merge");
+
 /**
  * 
  * @description Flattens a JSON object into label and value pairs
@@ -283,8 +285,15 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
           
         }
 
-      });
-      return  {"name": prefixLabel, "displayName": label, "type": typeof(keyData) === "object" ? (Array.isArray(keyData)? "array": "object"): typeof(keyData),  "defaultValue": keyData, "children": myChildren}
+      }); 
+      let dv;
+      if (Array.isArray(keyData)) {
+        dv = objectmerge([], keyData);
+      } else {
+        dv = objectmerge({}, keyData);
+      }
+
+      return  {"name": prefixLabel, "displayName": label, "type": typeof(keyData) === "object" ? (Array.isArray(keyData)? "array": "object"): typeof(keyData),  "defaultValue": dv, "children": myChildren}
     } else {
       return {"name": prefixLabel, "displayName": label, "type": typeof(keyData),  "defaultValue": keyData, "children": []}
     }

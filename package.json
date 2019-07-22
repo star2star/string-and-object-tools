@@ -1,6 +1,6 @@
 {
   "name": "string-and-object-tools",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "assorted utilites for working with strings and objects",
   "main": "lib/index.js",
   "scripts": {
@@ -26,10 +26,11 @@
     "@babel/register": "7.4.4",
     "assert": "1.4.1",
     "documentation": "8.0.2",
-    "lodash": "4.17.11",
+    "lodash": "^4.17.15",
     "mocha": "5.2.0"
   },
   "dependencies": {
-    "jsonata": "^1.6.5"
+    "jsonata": "^1.6.5",
+    "object-merge": "^2.5.1"
   }
 }
