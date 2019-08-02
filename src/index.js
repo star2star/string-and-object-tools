@@ -251,10 +251,11 @@ const getFlattenedObject = (sampleData, name) => {
  * 
  * @description builds a object from JSON object 
  * @param {object} sampleData - JSON object to be flattened.
- * @param {stirng} name - prefix name defaults to empty 
+ * @param {stirng} name - prefix name defaults to empty
+ * @param {stirng} label - label defaults "no label"
  * @returns {array of <objects>} - array of objects in the form of {name, type, value }
  */
-const buildTreeFromObject = (sampleData, prefixName="") => {
+const buildTreeFromObject = (sampleData, prefixName="", label="no label") => {
   let myReturn = [];
 
   const getKeyData = (keyData, prefixLabel="", level=0, label="") =>{
@@ -300,7 +301,7 @@ const buildTreeFromObject = (sampleData, prefixName="") => {
     
   }
 
-  myReturn = myReturn.concat(getKeyData(sampleData, prefixName, 0, prefixName));
+  myReturn = myReturn.concat(getKeyData(sampleData, prefixName, 0, label));
 
   return myReturn;
  

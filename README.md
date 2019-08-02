@@ -45,4 +45,5 @@ require("babel-polyfill");
 * 0.0.17 - fix to null object take 2 
 * 0.0.18 - fix issue with buildTreeFromApplication - defaultValue was object but string type 
 * 0.0.19 - bug with buildTee from object missing prefixName 
-* 0.0.20 - circular reference issue 
+* 0.0.20 - circular reference issue
+* 0.0.21 - bug with buildTee from object label incorrect in some cases

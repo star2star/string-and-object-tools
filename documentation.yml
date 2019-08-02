@@ -5,7 +5,7 @@ toc:
       - getContentEditableData
       - getFlattenedObject
       - getVariableSelectData
-      - objectHasOwnPropery
+      - objectHasOwnProperty
       - replaceVariableInput
   
       
