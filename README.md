@@ -47,3 +47,4 @@ require("babel-polyfill");
 * 0.0.19 - bug with buildTee from object missing prefixName 
 * 0.0.20 - circular reference issue
 * 0.0.21 - bug with buildTee from object label incorrect in some cases
+* 0.0.22 - npm package updates
