@@ -25,12 +25,12 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
           if (Array.isArray(sampleData[key])) {
             // array so do my magic here 
             //console.log('k', key);
-            return [].concat([{"label": getNewLabel(`${label}`, `${key}`) , "value":  sampleData[key]}]).concat(sampleData[key].map((item, index) => {
+            return [].concat([{ "label": getNewLabel(`${label}`, `${key}`), "value": sampleData[key] }]).concat(sampleData[key].map((item, index) => {
               if (typeof (item) === "object" && item !== null && Object.keys(item).length > 0) {
                 // ok this is an object within array 
-                return [].concat([{"label": getNewLabel(`${label}`, `${key}[${index}]`) , "value":  item }]).concat(getObjectStuff(getNewLabel(`${label}`, `${key}[${index}]`), item ));
+                return [].concat([{ "label": getNewLabel(`${label}`, `${key}[${index}]`), "value": item }]).concat(getObjectStuff(getNewLabel(`${label}`, `${key}[${index}]`), item));
               } else {
-                if (item === null  ) {
+                if (item === null) {
                   return { "label": getNewLabel(`${label}`, `${key}[${index}]`), "value": "NULL" };
                 } else {
                   return { "label": getNewLabel(`${label}`, `${key}[${index}]`), "value": item };
@@ -41,16 +41,16 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
             // it is an object so recursion
             if (Object.keys(sampleData[key]).length > 0) {
               // 
-              const mySecondary = getObjectStuff(getNewLabel(`${label}`, `${key}`), sampleData[key] );
-  
+              const mySecondary = getObjectStuff(getNewLabel(`${label}`, `${key}`), sampleData[key]);
+
               // console.log('zzzzz', [].concat({"label": getNewLabel(`${label}`, `${key}`), "value": sampleData[key]}).concat(mySecondary));
               // console.log('>>>>', mySecondary);
-              return [].concat({"label": getNewLabel(`${label}`, `${key}`), "value": sampleData[key]}).concat(mySecondary);
+              return [].concat({ "label": getNewLabel(`${label}`, `${key}`), "value": sampleData[key] }).concat(mySecondary);
               //return mySecondary;
             } else {
               return { "label": getNewLabel(`${label}`, `${key}`), "value": "EMPTY" };
             }
-  
+
           }
         } else { // primative stuff 
           if (sampleData[key] === null) {
@@ -62,8 +62,8 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
       });
       let myReturn = [];
 
-      if (label.length === 0 ){
-        if (Array.isArray(sampleData)){
+      if (label.length === 0) {
+        if (Array.isArray(sampleData)) {
           //console.warn('addd the array ', firstRun.reduce((acc, val) => acc.concat(val), []));
           // fix firstRun data
           const flattenDeep = (arr1) => {
@@ -71,15 +71,15 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
           }
           const xFirstRun = flattenDeep(firstRun);
 
-          myReturn = [].concat([ { "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i)=>{
+          myReturn = [].concat([{ "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i) => {
             //console.log(i);
             const name = i.label;
             const firstPart = name.substring(0, name.indexOf('.') > -1 ? name.indexOf('.') : undefined);
             //console.log('zzz', firstPart);
-            const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.')+1): "";
+            const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.') + 1) : "";
             //console.log('a', firstPart, lastPart);
             let newName = `${sampleDataName}[${firstPart}]`;
-            if (lastPart && lastPart.length > 0){
+            if (lastPart && lastPart.length > 0) {
               newName += `.${lastPart}`;
             }
             return { ...i, "label": newName };
@@ -93,15 +93,15 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
           }
           const xFirstRun = flattenDeep(firstRun);
 
-          myReturn = [].concat([ { "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i)=>{
+          myReturn = [].concat([{ "label": sampleDataName, "value": sampleData }]).concat(xFirstRun.map((i) => {
             //console.log(i);
             const name = i.label;
             const firstPart = name.substring(0, name.indexOf('.') > -1 ? name.indexOf('.') : undefined);
             //console.log('zzz', firstPart);
-            const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.')+1): "";
+            const lastPart = name.indexOf('.') > -1 ? name.substring(name.indexOf('.') + 1) : "";
             //console.log('a', firstPart, lastPart);
             let newName = sampleDataName && sampleDataName.length > 0 ? `${sampleDataName}.${firstPart}` : `${firstPart}`;
-            if (lastPart && lastPart.length > 0){
+            if (lastPart && lastPart.length > 0) {
               newName += `.${lastPart}`;
             }
             return { ...i, "label": newName };
@@ -113,20 +113,20 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
       }
 
       return myReturn;
-    
+
     } else {
       //console.warn('sample data provided to getVariableSelectData was not an object: ', sampleData === "" ? "empty string": sampleData);
       return [];
     }
   };
 
-  let myReturn=[];
-  const myData =  getObjectStuff(label, sampleData);
+  let myReturn = [];
+  const myData = getObjectStuff(label, sampleData);
 
-  const dedupArray = (myData) =>{
+  const dedupArray = (myData) => {
     let myReturn = [];
-    myData.forEach((item)=>{
-      if (Array.isArray(item)){
+    myData.forEach((item) => {
+      if (Array.isArray(item)) {
         myReturn = [].concat.apply(myReturn, item);
       } else {
         myReturn = myReturn.concat(item);
@@ -135,10 +135,10 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
     return myReturn;
   };
 
-  const hasArrayData = (myData) =>{
-    return myData.reduce((p,c)=>{
-      if (!p){
-        if (Array.isArray(c)){
+  const hasArrayData = (myData) => {
+    return myData.reduce((p, c) => {
+      if (!p) {
+        if (Array.isArray(c)) {
           return true;
         }
       }
@@ -150,17 +150,17 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
   myReturn = [].concat(myData);
   let bClean = true;
   let mLevels = 0;
-  while (bClean && ++mLevels < 100){
-    
+  while (bClean && ++mLevels < 100) {
+
     bClean = hasArrayData(myReturn);
-    if(bClean){
+    if (bClean) {
       //console.log('cleaning because i still have arrays', myReturn);
       myReturn = dedupArray(myReturn);
       //console.log('after clean: ', myReturn);
     } else {
       //console.log('ssssss', bClean, myReturn);
     }
- 
+
   }
 
   return myReturn;
@@ -176,7 +176,7 @@ const getVariableSelectData = (label = "", sampleData, sampleDataName) => {
 const replaceVariableInput = (incomingString = "", sampleData = {}) => {
   const variableSelectData = getVariableSelectData("", sampleData);
   //swallow bad parameter
-  if (typeof incomingString !== "string"){
+  if (typeof incomingString !== "string") {
     //console.warn("replaceVariableInput incomingString type not a string: ", typeof incomingString);
     return "";
   }
@@ -187,16 +187,16 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
 
   // console.log('xxxxx', regexMatches, variableSelectData);
   // replace based on variableSelectData
-  regexMatches && regexMatches.length > 0 && regexMatches.forEach((item)=>{
-    
-    let endPos = item.length ;
-    if ( [";", ":", ",", ".", "!", "?" ].indexOf(item.charAt(item.length - 1)) !== -1){
-      endPos = item.length -2;
+  regexMatches && regexMatches.length > 0 && regexMatches.forEach((item) => {
+
+    let endPos = item.length;
+    if ([";", ":", ",", ".", "!", "?"].indexOf(item.charAt(item.length - 1)) !== -1) {
+      endPos = item.length - 2;
     }
-    
+
     const replacementName = item.substr(1, endPos); //strip off + 
     // console.log(item, item.charAt(item.length -1), item.length, endPos, replacementName);
-    const replacementValue = variableSelectData.reduce((p,c,i)=>{
+    const replacementValue = variableSelectData.reduce((p, c, i) => {
       // console.log('xxxx', p, c, i );
       if (!p) {
         if (c.label === replacementName) {
@@ -205,9 +205,9 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
       }
       return p;
     }, undefined);
-    // console.log('>>>', replacementName, replacementValue, replacementValue.length);
-    if (replacementValue && replacementValue.toString().length > 0) {
-      newInput = newInput.replace(new RegExp("\\+"+replacementName, 'g'), replacementValue);
+    // console.log('>>>', replacementName, replacementValue.toString(), replacementValue.length);
+    if (replacementValue !== undefined /* && replacementValue.toString().length > 0 */) {
+      newInput = newInput.replace(new RegExp("\\+" + replacementName, 'g'), replacementValue);
     }
 
   });
@@ -223,11 +223,11 @@ const replaceVariableInput = (incomingString = "", sampleData = {}) => {
 const getContentEditableData = (sampleData) => {
   const data = getVariableSelectData("", sampleData);
   const rData = {};
-  data.forEach((obj)=>{
-    if (obj.label && obj.label.length > 0){
+  data.forEach((obj) => {
+    if (obj.label && obj.label.length > 0) {
       rData[obj.label] = obj.value;
     }
-    
+
   });
   return rData;
 };
@@ -240,11 +240,11 @@ const getContentEditableData = (sampleData) => {
  */
 const getFlattenedObject = (sampleData, name) => {
   const data = getVariableSelectData("", sampleData, name);
- 
-  return data.map((obj)=>{
-    return {"name": obj.label, "type": (typeof(obj.value) === "object" && Array.isArray(obj.value) ? "array" : typeof(obj.value)), "defaultValue": obj.value};
+
+  return data.map((obj) => {
+    return { "name": obj.label, "type": (typeof (obj.value) === "object" && Array.isArray(obj.value) ? "array" : typeof (obj.value)), "defaultValue": obj.value };
   });
- 
+
 };
 
 /**
@@ -255,38 +255,38 @@ const getFlattenedObject = (sampleData, name) => {
  * @param {stirng} label - label defaults "no label"
  * @returns {array of <objects>} - array of objects in the form of {name, type, value }
  */
-const buildTreeFromObject = (sampleData, prefixName="", label="no label") => {
+const buildTreeFromObject = (sampleData, prefixName = "", label = "no label") => {
   let myReturn = [];
 
-  const getKeyData = (keyData, prefixLabel="", level=0, label="") =>{
+  const getKeyData = (keyData, prefixLabel = "", level = 0, label = "") => {
     //console.log('getKeyData ....', keyData, prefixLabel, level, label);
-    if (!keyData){
+    if (!keyData) {
       throw new Error('keyData invalid');
     }
-    if(typeof prefixName !== "string"){
+    if (typeof prefixName !== "string") {
       console.warn("prefixName not a string, aborting...", prefixName);
       return [];
     }
-    if (typeof(keyData) === "object"){
+    if (typeof (keyData) === "object") {
 
       // recursion
-      const myChildren = Object.keys(keyData).map((k)=>{
+      const myChildren = Object.keys(keyData).map((k) => {
         // is child an object 
-        if (typeof(keyData[k])=== "object" && keyData[k] !== null){
+        if (typeof (keyData[k]) === "object" && keyData[k] !== null) {
           //console.log('zzzzz', keyData, k)
           return getKeyData(keyData[k], (Array.isArray(keyData) ? `${prefixLabel}[${k}]` : `${prefixLabel}.${k}`), level++, k);
         } else {
           //console.log('hmmmmm ', typeof(keyData[k]));
-          if (Array.isArray(keyData)){ // parent is an array so doing this why 
+          if (Array.isArray(keyData)) { // parent is an array so doing this why 
             //console.log('>>>', prefixLabel, k, keyData )
-            return {"name": `${prefixLabel}[${k}]`, "displayName":`[${k}]`, "type": typeof(keyData[k]),  "defaultValue": keyData[k], "children": []}
+            return { "name": `${prefixLabel}[${k}]`, "displayName": `[${k}]`, "type": typeof (keyData[k]), "defaultValue": keyData[k], "children": [] }
           } else {
-            return {"name": `${prefixLabel}.${k}`, "displayName":`${k}`, "type": typeof(keyData[k]),  "defaultValue": keyData[k], "children": []}
+            return { "name": `${prefixLabel}.${k}`, "displayName": `${k}`, "type": typeof (keyData[k]), "defaultValue": keyData[k], "children": [] }
           }
-          
+
         }
 
-      }); 
+      });
       let dv;
       if (Array.isArray(keyData)) {
         dv = objectmerge([], keyData);
@@ -294,17 +294,17 @@ const buildTreeFromObject = (sampleData, prefixName="", label="no label") => {
         dv = objectmerge({}, keyData);
       }
 
-      return  {"name": prefixLabel, "displayName": label, "type": typeof(keyData) === "object" ? (Array.isArray(keyData)? "array": "object"): typeof(keyData),  "defaultValue": dv, "children": myChildren}
+      return { "name": prefixLabel, "displayName": label, "type": typeof (keyData) === "object" ? (Array.isArray(keyData) ? "array" : "object") : typeof (keyData), "defaultValue": dv, "children": myChildren }
     } else {
-      return {"name": prefixLabel, "displayName": label, "type": typeof(keyData),  "defaultValue": keyData, "children": []}
+      return { "name": prefixLabel, "displayName": label, "type": typeof (keyData), "defaultValue": keyData, "children": [] }
     }
-    
+
   }
 
   myReturn = myReturn.concat(getKeyData(sampleData, prefixName, 0, label));
 
   return myReturn;
- 
+
 };
 
 /**
@@ -318,13 +318,13 @@ const objectHasOwnProperty = (obj, dotNotation) => {
   let theObj = obj;
   let theString = dotNotation;
   //invalid stringified json breaks jsonata.evaluate()
-  try{
-    if(obj === null || typeof obj !== "object" || typeof dotNotation !== "string"){
+  try {
+    if (obj === null || typeof obj !== "object" || typeof dotNotation !== "string") {
       console.warn("parameter type mismatch, expecting object and string got: ", typeof obj, typeof dotNotation);
       return false;
     }
     //jsonata does not like arrays as the root element. nest it in object as work-around
-    if(Array.isArray(obj)){
+    if (Array.isArray(obj)) {
       theObj = {
         "root": obj
       };
@@ -333,13 +333,13 @@ const objectHasOwnProperty = (obj, dotNotation) => {
     // console.log("theString: ", theString);
     // console.log("theObj: ", theObj);
     // console.log("results: ", jsonata(theString).evaluate(theObj));
-    if((jsonata(theString).evaluate(theObj))){
+    if ((jsonata(theString).evaluate(theObj))) {
       return true
     };
-    
+
     return false;
 
-  } catch (error){
+  } catch (error) {
     //swallow error but warn
     console.warn("objectHasOwnProperty query error: ", error.hasOwnProperty("message") ? error.message : "unspecified");
     return false
@@ -355,15 +355,15 @@ const objectHasOwnProperty = (obj, dotNotation) => {
  */
 const buildTreeFromApplication = (appObj, version) => {
   // verify appObj
-  if (typeof(appObj) !== "object" || !appObj.hasOwnProperty('content') || !appObj.content || !appObj.content.hasOwnProperty("versions") || !appObj.content.versions || Object.keys(appObj.content.versions).length <1){
-    console.warn('application object is invalid ', );
+  if (typeof (appObj) !== "object" || !appObj.hasOwnProperty('content') || !appObj.content || !appObj.content.hasOwnProperty("versions") || !appObj.content.versions || Object.keys(appObj.content.versions).length < 1) {
+    console.warn('application object is invalid ',);
     return [];
   }
   let newVersion = version;
-  if (!version || version.length === 0 || Object.keys(appObj.content.versions).indexOf(version) === -1){
+  if (!version || version.length === 0 || Object.keys(appObj.content.versions).indexOf(version) === -1) {
     // fix version 
     if (Object.keys(appObj.content.versions).length === 0) {
-      console.warn('application does not have any versions ... returning blank ' );
+      console.warn('application does not have any versions ... returning blank ');
       return [];
     }
     newVersion = Object.keys(appObj.content.versions)[0];
@@ -373,22 +373,22 @@ const buildTreeFromApplication = (appObj, version) => {
   // ok get flows from version 
   const myFlows = appObj.content.versions[newVersion].flows;
 
-  const buildChildFromOutputItem = (outputObj, prefixLabel, childrenArray=[]) =>{
+  const buildChildFromOutputItem = (outputObj, prefixLabel, childrenArray = []) => {
     //console.log('zzzzzzzzzz', outputObj);
-    return {"name": `${prefixLabel}${outputObj.name}`, "displayName": outputObj.name, "type": outputObj.dataType,  "defaultValue": outputObj.defaultValue, "children":childrenArray };
+    return { "name": `${prefixLabel}${outputObj.name}`, "displayName": outputObj.name, "type": outputObj.dataType, "defaultValue": outputObj.defaultValue, "children": childrenArray };
   }
 
-  const getChildrenFromObject = (myObj, prefixLabel, dv) =>{
+  const getChildrenFromObject = (myObj, prefixLabel, dv) => {
     //console.log('zzzz', myObj, prefixLabel, dv);
 
     const myReturn = [];
     // handle it differently 
-    Object.keys(myObj).map((i)=>{
-      if (typeof(myObj[i]) === "object" && myObj[i] !== null ){
+    Object.keys(myObj).map((i) => {
+      if (typeof (myObj[i]) === "object" && myObj[i] !== null) {
         // recurisve 
         let myName = '';
-        let myType = Array.isArray(myObj[i]) ?  "array" : "object";
-        if (Array.isArray(myObj)){
+        let myType = Array.isArray(myObj[i]) ? "array" : "object";
+        if (Array.isArray(myObj)) {
           dv[i] = myObj[i];
           myName = `${prefixLabel}[${i}]`;
         } else {
@@ -396,10 +396,10 @@ const buildTreeFromApplication = (appObj, version) => {
           myName = `${prefixLabel}.${i}`;
         }
         const myC = getChildrenFromObject(myObj[i], myName, dv[i]);
-        myReturn.push({"name": myName, "displayName": i, "type": myType,  "defaultValue": myObj[i], "children": myC});
+        myReturn.push({ "name": myName, "displayName": i, "type": myType, "defaultValue": myObj[i], "children": myC });
       } else {
         let myName = '';
-        if (Array.isArray(myObj)){
+        if (Array.isArray(myObj)) {
           dv[i] = myObj[i];
           myName = `${prefixLabel}[${i}]`;
         } else {
@@ -407,26 +407,26 @@ const buildTreeFromApplication = (appObj, version) => {
           myName = `${prefixLabel}.${i}`;
         }
         // adding to object treee 
-        
+
         // array items are different so just build it here 
-        myReturn.push({"name": myName, "displayName": i, "type": typeof(myObj[i]),  "defaultValue": myObj[i], "children":[] });
+        myReturn.push({ "name": myName, "displayName": i, "type": typeof (myObj[i]), "defaultValue": myObj[i], "children": [] });
       }
     });
 
     return myReturn;
   }
 
-  const getChildrenForFlow = (theFlow, flowName, dv) =>{
+  const getChildrenForFlow = (theFlow, flowName, dv) => {
     //console.log('xxxxxx', theFlow, flowName, dv);
     const flowChildren = [];
-    
-    theFlow.nodes.map((n)=>{
-      if (n.hasOwnProperty("outputs") && n.outputs.length > 0){
-        n.outputs.map((o)=>{
+
+    theFlow.nodes.map((n) => {
+      if (n.hasOwnProperty("outputs") && n.outputs.length > 0) {
+        n.outputs.map((o) => {
           if (o.dataType === "object" || o.dataType === "array") {
-            let pName="";
-            
-            if (o.dataType === "array"){
+            let pName = "";
+
+            if (o.dataType === "array") {
               pName = `[${flowName}].${o.name}`;
               dv[o.name] = [];
             } else {
@@ -434,9 +434,9 @@ const buildTreeFromApplication = (appObj, version) => {
               dv[o.name] = {};
             }
             // recursion
-            const myObj = (typeof(o.defaultValue) === "string" ? JSON.parse(o.defaultValue) : o.defaultValue);
-            const theC = getChildrenFromObject(myObj, pName, dv[o.name] );
-            
+            const myObj = (typeof (o.defaultValue) === "string" ? JSON.parse(o.defaultValue) : o.defaultValue);
+            const theC = getChildrenFromObject(myObj, pName, dv[o.name]);
+
             flowChildren.push(buildChildFromOutputItem(o, `[${flowName}]`, theC));
           } else {
             // base item
@@ -446,29 +446,29 @@ const buildTreeFromApplication = (appObj, version) => {
         })
       }
     });
-    return flowChildren; 
+    return flowChildren;
   }
 
-  return myFlows.reduce((p,f)=>{
+  return myFlows.reduce((p, f) => {
     const dv = {};
-    if (f.hasOwnProperty("parent_uuid") && f.parent_uuid && f.parent_uuid.length > 0 ){
+    if (f.hasOwnProperty("parent_uuid") && f.parent_uuid && f.parent_uuid.length > 0) {
       // child so ignore it 
       return p;
     } else {
       const c = getChildrenForFlow(f, f.name, dv);
       //console.log('>>>>>', JSON.stringify(dv, "", 3));
-      return p.concat({"name": f.name, "displayName": f.name, "type": "object",  "defaultValue": dv, "children": c});
+      return p.concat({ "name": f.name, "displayName": f.name, "type": "object", "defaultValue": dv, "children": c });
     }
 
   }, []);
- 
+
 };
 
 module.exports = {
   replaceVariableInput,
   getVariableSelectData,
-  getContentEditableData, 
-  getFlattenedObject, 
+  getContentEditableData,
+  getFlattenedObject,
   buildTreeFromObject,
   objectHasOwnProperty,
   buildTreeFromApplication

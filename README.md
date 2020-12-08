@@ -48,3 +48,4 @@ require("babel-polyfill");
 * 0.0.20 - circular reference issue
 * 0.0.21 - bug with buildTee from object label incorrect in some cases
 * 0.0.22 - npm package updates
+* 0.0.23 - variable replacement to empty string if it is defined that way
