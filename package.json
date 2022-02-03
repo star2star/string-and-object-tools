@@ -1,6 +1,6 @@
 {
   "name": "string-and-object-tools",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "assorted utilites for working with strings and objects",
   "main": "lib/index.js",
   "scripts": {
@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "jsonata": "1.8.3",
-    "object-merge": "2.5.1"
+    "merge-deep": "^3.0.3" 
   }
 }

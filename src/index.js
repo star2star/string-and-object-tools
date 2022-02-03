@@ -1,7 +1,7 @@
 
 "use strict";
 const jsonata = require("jsonata");
-const objectmerge = require("object-merge");
+const merge = require("merge-deep");
 
 /**
  * 
@@ -289,9 +289,9 @@ const buildTreeFromObject = (sampleData, prefixName = "", label = "no label") =>
       });
       let dv;
       if (Array.isArray(keyData)) {
-        dv = objectmerge([], keyData);
+        dv = keyData.map((data)=>{merge({}, data)})
       } else {
-        dv = objectmerge({}, keyData);
+        dv = merge({}, keyData);
       }
 
       return { "name": prefixLabel, "displayName": label, "type": typeof (keyData) === "object" ? (Array.isArray(keyData) ? "array" : "object") : typeof (keyData), "defaultValue": dv, "children": myChildren }
