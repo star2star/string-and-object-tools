@@ -1,7 +1,7 @@
 
 "use strict";
 const jsonata = require("jsonata");
-const merge = require("merge-deep");
+const merge = require("@star2star/merge-deep");
 
 /**
  * 
