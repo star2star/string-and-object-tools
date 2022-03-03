@@ -1,7 +1,7 @@
 const assert = require("assert");
 const tools = require("../src/index");
 const _ = require("lodash");
-const objectmerge = require("object-merge");
+const merge = require("@star2star/merge-deep");
 
 describe("String and Object Tools Index", function () {
 
@@ -421,7 +421,7 @@ describe("String and Object Tools Index", function () {
 
   it("build tree from object 4 ", function (done) {
     const output = tools.buildTreeFromObject({ "a": 1, "b": { "c": 2 }, d: [0, 1, 2, 3, 4] }, "prefixName", "prefixName");
-    //console.log('xxxxx',  JSON.stringify(output, "", 5));
+    console.log('xxxxx', JSON.stringify(output, "", 5));
     const RESULTS = [
       {
         "name": "prefixName", "displayName": "prefixName", "type": "object", "defaultValue": { "a": 1, "b": { "c": 2 }, d: [0, 1, 2, 3, 4] }, "children": [
@@ -443,7 +443,7 @@ describe("String and Object Tools Index", function () {
         ]
       }
     ];
-    //console.log('yyyyy', JSON.stringify(RESULTS, "", 5));
+    console.log('yyyyy', JSON.stringify(RESULTS, "", 5));
     assert(JSON.stringify(output) === JSON.stringify(RESULTS));
 
     done();
@@ -1194,7 +1194,7 @@ describe("String and Object Tools Index", function () {
 
     //console.log(JSON.stringify(myApp, "", 3));
     const x = tools.buildTreeFromObject(myObj, "people", "people");
-    const z = objectmerge({}, x);
+    const z = merge({}, x);
 
     //console.log('output', JSON.stringify(x, "", 0));
     const RESULTS = [{ "name": "people", "displayName": "people", "type": "array", "defaultValue": [{ "modality": "sms", "name": "james", "value": "9418076677" }, { "modality": "sms", "name": "mary", "value": "1" }], "children": [{ "name": "people[0]", "displayName": "0", "type": "object", "defaultValue": { "modality": "sms", "name": "james", "value": "9418076677" }, "children": [{ "name": "people[0].modality", "displayName": "modality", "type": "string", "defaultValue": "sms", "children": [] }, { "name": "people[0].name", "displayName": "name", "type": "string", "defaultValue": "james", "children": [] }, { "name": "people[0].value", "displayName": "value", "type": "string", "defaultValue": "9418076677", "children": [] }] }, { "name": "people[1]", "displayName": "1", "type": "object", "defaultValue": { "modality": "sms", "name": "mary", "value": "1" }, "children": [{ "name": "people[1].modality", "displayName": "modality", "type": "string", "defaultValue": "sms", "children": [] }, { "name": "people[1].name", "displayName": "name", "type": "string", "defaultValue": "mary", "children": [] }, { "name": "people[1].value", "displayName": "value", "type": "string", "defaultValue": "1", "children": [] }] }] }];
@@ -1210,7 +1210,7 @@ describe("String and Object Tools Index", function () {
 
     //console.log(JSON.stringify(myApp, "", 3));
     const x = tools.buildTreeFromObject(myObj, "people");
-    const z = objectmerge({}, x);
+    const z = merge({}, x);
 
     //console.log('output', JSON.stringify(x, "", 0));
     const RESULTS = [{ "name": "people", "displayName": "no label", "type": "array", "defaultValue": [{ "modality": "sms", "name": "james", "value": "9418076677" }, { "modality": "sms", "name": "mary", "value": "1" }], "children": [{ "name": "people[0]", "displayName": "0", "type": "object", "defaultValue": { "modality": "sms", "name": "james", "value": "9418076677" }, "children": [{ "name": "people[0].modality", "displayName": "modality", "type": "string", "defaultValue": "sms", "children": [] }, { "name": "people[0].name", "displayName": "name", "type": "string", "defaultValue": "james", "children": [] }, { "name": "people[0].value", "displayName": "value", "type": "string", "defaultValue": "9418076677", "children": [] }] }, { "name": "people[1]", "displayName": "1", "type": "object", "defaultValue": { "modality": "sms", "name": "mary", "value": "1" }, "children": [{ "name": "people[1].modality", "displayName": "modality", "type": "string", "defaultValue": "sms", "children": [] }, { "name": "people[1].name", "displayName": "name", "type": "string", "defaultValue": "mary", "children": [] }, { "name": "people[1].value", "displayName": "value", "type": "string", "defaultValue": "1", "children": [] }] }] }];

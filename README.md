@@ -50,3 +50,5 @@ require("babel-polyfill");
 * 0.0.22 - npm package updates
 * 0.0.23 - variable replacement to empty string if it is defined that way
 * 0.0.24 - object merge to merge-deep
+* 0.0.25 - fixed merge import
+* 0.0.26 - fixed merging arrays

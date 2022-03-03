@@ -289,9 +289,26 @@ const buildTreeFromObject = (sampleData, prefixName = "", label = "no label") =>
       });
       let dv;
       if (Array.isArray(keyData)) {
-        dv = keyData.map((data)=>{merge({}, data)})
+        dv = keyData.map((data) => {
+          if (typeof (data) !== "object" || Array.isArray(data)) {
+            // If the data is a primitive type, then don't do merge since it will return
+            // and object (want to keep the primitive)
+            // As for the arrays, ultimately the defaultValue will be stringified, so should be OK 
+            // returning array as item in defaultValue array.  This is an edge case (multi-dimensional arrays) 
+            return data;
+          } else {
+            return merge(data)
+          }
+        });
+        // console.log('%%%%%%% dv', dv);
       } else {
-        dv = merge({}, keyData);
+        if (typeof (keyData) !== "object") {
+          // If the keyData is a primitive type, then don't do merge since it will return
+          // and object (want to keep the primitive)
+          dv = keyData;
+        } else {
+          dv = merge(keyData);
+        }
       }
 
       return { "name": prefixLabel, "displayName": label, "type": typeof (keyData) === "object" ? (Array.isArray(keyData) ? "array" : "object") : typeof (keyData), "defaultValue": dv, "children": myChildren }
