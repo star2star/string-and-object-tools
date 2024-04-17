@@ -52,3 +52,4 @@ require("babel-polyfill");
 * 0.0.24 - object merge to merge-deep
 * 0.0.25 - fixed merge import
 * 0.0.26 - fixed merging arrays
+* 0.0.27 - update jsonata version to 1.8.7
